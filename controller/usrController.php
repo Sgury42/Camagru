@@ -8,12 +8,13 @@ function signinAction()
     if (ft_isset($_SESSION["USR_NAME"])) {
         header("Location: index.php?action=index");
     }
-    if ($_POST["passwd"] != $_POST["repasswd"]) {
-        $errors[] = "Oups ! Passwords don't match !";
-    }
-    else if (ft_isset($_POST["email"], $_POST["login"] && ft_isset($_POST["passwd"]))) {
+    else if (ft_isset($_POST["email"], $_POST["login"]
+        && ft_isset($_POST["passwd"] && ft_isset($_POST["repasswd"])))) {
         if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
             $errors[] = "Please enter a valid email address.";
+        }
+        if ($_POST["passwd"] != $_POST["repasswd"]) {
+            $errors[] = "Oups ! Passwords don't match!";
         }
         if ($pwdErrors = isPasswdStrong($_POST["passwd"])) {
             $errors = array_merge($errors, $pwdErrors);
@@ -34,3 +35,9 @@ function signinAction()
     $error_msg = join("<br />", $errors);
     require_once "view/usr/signin.php";
 }
+
+
+// should try to clean this code, look up for :
+    //do 
+    //try
+//or BETTER use javascript to check passwd strength and if password are the same;
