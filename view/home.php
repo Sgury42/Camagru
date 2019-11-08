@@ -18,10 +18,11 @@
                 <?php if ($_SESSION['ROLE'] == 'admin') : ?>
                 <li class="button"><a href="index.php?action=admin">Admin</a></li>
                 <?php endif; ?>
-                <li class="button"><a href="index.php?action?customPanel">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
+                <li class="button"><a href="index.php?action=customPanel">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
            </ul>
         </header>
         <div id="main">
+            <div><?php echo $msg_alert ?></div>
             <?php echo $content ?>
         </div>
         <footer>

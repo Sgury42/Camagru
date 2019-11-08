@@ -2,11 +2,11 @@
 require_once "model/user.php";
 require_once "model/database.php";
 
+
+
 function signinAction()
 {
-    //print_r($_POST);
-    // $errors = [];
-    if (ft_isset($_SESSION["USR_NAME"])) {
+    if (ft_isset($_SESSION["usr_name"])) {
         header("Location: index.php?action=index");
     }
     else if (ft_isset($_POST["email"]) && ft_isset($_POST["login"])
@@ -14,26 +14,33 @@ function signinAction()
         if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
              $error_msg = "Please enter a valid email address.";
         }
+        else if (!passwdIsSecure($_POST["passwd"])) {
+            $error_msg = ("Please choose a secure password");
+        }
+        else if (accountExists($_POST["login"], $_POST["email"])) {
+            $error_msg = ("Looks like you already have an account !
+            <a href=\"index.php?action=login\" style=\"text-decoration: underline\">try to connect</a>");
+        }
         else if (dataExists("users", "email", $_POST["email"])) {
-              $errors[] = "An account is already using this e-mail address !";             //add a link to receive unique link to reset passwd
-          }
-        // if ($dataExists(DB_USER, $_POST["login"])) {
-            // $errors[] = "This login is already taken, please choose a new one";
-        // }
-        // else if (!newUsr(DB_USER, $_POST["email"], $_POST["login"], $_POST["passwd"], "user")) {
-            // $error_msg = ("Oups try again !");
-        // }
-          else {
-            return (header("Location: index.php?action=login"));                  // Maybe better to display a message saying that an email has been sent?
+            $error_msg = "An account is already using this e-mail address
+            <a href=\"index.php?action=login\" style=\"text-decoration: underline\">try to connect</a>";
+        }
+        else if (dataExists("users", "login", $_POST["login"])) {
+            $error_msg = "This login is already taken, please choose a new one";
+        }
+        else if (!newUsr($_POST["login"], "client", $_POST["email"], $_POST["passwd"])) {
+           $error_msg = ("Oups try again !");
+        }
+        else {
+            if (signinMail($_POST["email"], $_POST["login"])) {
+                $_SESSION["msg_alert"] = "Your account has been created successfully! <br />
+                Please check your mail box to verrify your account.";
+                header("Location: index.php?action=index");
+            } else {
+                $error_msg = "Oups something went wrong, please try again.";
+                removeUsr($_POST["login"]);
+            }
         }
     }
-    //$errors[] = "error msg to add";
-    //$error_msg = join("<br />", $errors);
     require_once "view/usr/signin.php";
 }
-
-
-// should try to clean this code, look up for :
-    //do 
-    //try
-//or BETTER use javascript to check passwd strength and if password are the same;

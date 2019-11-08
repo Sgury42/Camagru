@@ -4,7 +4,7 @@
     <p>Sign In</p>
     <form method="post" onsubmit="return submitChecker()" action="">
         <p>e-mail address:</p>
-        <input type="email" name="email" maxlength="50" required><br />
+        <input type="email" name="email" maxlength="80" required><br />
         <p>Login:</p>
         <input type="text" name="login" maxlength="15" required><br />
         <p>Password:</p>
