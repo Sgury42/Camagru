@@ -1,8 +1,9 @@
 <?php ob_start(); ?>
 <div>
+    <p><?php echo $msg ?>
     <p><?php echo $error_msg ?></p>
     <p>Sign In</p>
-    <form method="post" onsubmit="return submitChecker()" action="">
+    <form method="POST" onsubmit="return submitChecker()" action="">
         <p>e-mail address:</p>
         <input type="email" name="email" maxlength="80" required><br />
         <p>Login:</p>
@@ -21,3 +22,4 @@
 <?php
 $content = ob_get_clean();
 require_once "view/home.php";
+?>

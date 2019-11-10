@@ -2,9 +2,7 @@
 require_once "model/user.php";
 require_once "model/database.php";
 
-
-
-function signinAction()
+function signupAction()
 {
     if (ft_isset($_SESSION["usr_name"])) {
         header("Location: index.php?action=index");
@@ -28,13 +26,15 @@ function signinAction()
         else if (dataExists("users", "login", $_POST["login"])) {
             $error_msg = "This login is already taken, please choose a new one";
         }
-        else if (!newUsr($_POST["login"], "client", $_POST["email"], $_POST["passwd"])) {
-           $error_msg = ("Oups try again !");
+        else if (!newUsr($_POST["login"], "unverified", $_POST["email"], $_POST["passwd"])) {
+            removeUsr($_POST["login"]);
+            $error_msg = ("Oups try again !");
         }
         else {
             if (signinMail($_POST["email"], $_POST["login"])) {
                 $_SESSION["msg_alert"] = "Your account has been created successfully! <br />
-                Please check your mail box to verrify your account.";
+                Please check your mail box to verrify your account. <br />
+                Didn't receive your confirmation email? <button onclick='verifyEmail()'> Click here </button>";
                 header("Location: index.php?action=index");
             } else {
                 $error_msg = "Oups something went wrong, please try again.";
@@ -43,4 +43,44 @@ function signinAction()
         }
     }
     require_once "view/usr/signin.php";
+}
+
+function loginAction() 
+{
+    if (ft_isset($_SESSION["usr_name"])) {
+        header("Location: index.php?action=index");             //add msg to display?
+    }
+    else if (ft_isset($_POST["login"]) && ft_isset($_POST["passwd"])) {
+        if (logRequest($_POST["login"], $_POST["passwd"])) {
+            header("Location: index.php?action=index");         //display msg??
+        }
+        else {
+            $error_msg = "Oups try again !";
+        }
+    }
+    require "view/usr/login.php";
+}
+
+function verifyAction()
+{
+    $msg = "Log In to verify your account";
+    $code = $_GET["code"];
+    if (ft_isset($_SESSION["usr_name"])) {
+        header("Location: index.php?action=index");
+    }
+    else if (ft_isset($_POST["login"]) && ft_isset($_POST["passwd"])) {
+        if (firstLog($_POST["login"], $_POST["passwd"], $code)) {
+            header("Location: index.php?action=index");
+        }
+        else {
+            $error_msg = "Oups try again !";
+        }
+    }
+    require "view/usr/login.php";
+}
+
+function logoutAction()
+{
+    unset($_SESSION["usr_name"]);
+    header("Location: index.php?action=index");
 }

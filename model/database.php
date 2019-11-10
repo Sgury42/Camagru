@@ -50,6 +50,20 @@ function addPasswd($id, $passwd)
     return true;
 }
 
+function addCode($id, $usage)
+{
+    $db = db_connection();
+    $code = random_code(10);
+    echo "code = " . $code;
+    $sql = "INSERT INTO `codes` (`usr_id`, `usage`, `code`)
+        VALUE ('". $id ."', '". $usage . "', 
+        AES_ENCRYPT('". $code . "', 'uniquecodeforsafety'));";
+    if (!$affected = $db->exec($sql)) {
+        return false;
+    }
+    return true;
+}
+
 function checkPasswd($login, $passwd)
 {
     $db = db_connection();
@@ -90,17 +104,46 @@ function newUsr($login, $role, $email, $passwd)
     if (!addPasswd($newId, $passwd)) {
         return false;
     }
+    if (!addCode($newId, "verify_email")) {
+        return false;
+    }
     return true;
 }
 
-function removeUsr($login) {
+function removeUsr($login)
+{
     $db = db_connection();
     $result = getValue("users", "id", "login", $login);
     $id = $result[0]["id"];
     $sql = "DELETE FROM `users`
         WHERE `id` = '" . $id . "';
         DELETE FROM `private`
-        WHERE `usr_id` = '" . $id ."';";
+        WHERE `usr_id` = '" . $id ."';
+        DELETE FROM `codes`
+        WHERE `usr_id` = '". $id . "'";
+    if (!$affected = $db->exec($sql)) {
+        return false;
+    }
+    return true;
+}
+
+function editData($table, $column, $newValue, $targetName, $target)
+{
+    $db = db_connection();
+    $sql = "UPDATE `". $table ."`
+        SET `". $column ."` = '". $newValue . "'
+        WHERE `". $targetName ."` = '". $target ."'";
+    if (!$affected = $db->exec($sql)) {
+        return false;
+    }
+    return true;
+}
+
+function removeData($table, $selector, $value)
+{
+    $db = db_connection();
+    $sql = "DELETE FROM `". $table ."`
+        WHERE `". $selector ."` = '". $value ."';";
     if (!$affected = $db->exec($sql)) {
         return false;
     }

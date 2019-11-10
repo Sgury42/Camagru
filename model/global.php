@@ -6,3 +6,9 @@ function ft_isset($value)
         return false;
     return (true);
 }
+
+function random_code($len)
+{
+    $str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    return substr(str_shuffle($str), 0, $len);
+}
