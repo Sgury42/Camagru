@@ -15,5 +15,14 @@ function usrRouter()
             logoutAction();
             break ;
     }
-    homeAction();
+    // homeAction();
+}
+
+function customRouter()
+{
+    switch ($_GET["action"]) {
+        case "customPanel":
+            customAction();
+            break ;
+    }
 }

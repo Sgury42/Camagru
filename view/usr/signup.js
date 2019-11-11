@@ -1,3 +1,4 @@
+var pwdStrength = "weak";
 function submitChecker() {
     var email = document.querySelector('[name="email"').value;
     var login = document.querySelector('[name="login"').value;
@@ -9,7 +10,7 @@ function submitChecker() {
     else if (passwd != passwd2) {
         alert ("Passwords did not match: Please try again !");
     }
-    else if (document.getElementById("passStrgth").innerHTML != "Strong") {
+    else if (pwdStrength != "strong") {
         alert ("Please choose a strong password.");
     }
     else {
@@ -19,7 +20,7 @@ function submitChecker() {
 }
 function passwdStrength(passwd) {
     if (passwd.length === 0) {
-        document.getElementById("passStrgth").innerHTML = "";
+        document.getElementById("setPwd").style.border = "none";
         return ;
     }
     var matchedCase = new Array();
@@ -35,29 +36,38 @@ function passwdStrength(passwd) {
         }
     }
     var color = "";
-    var strength = "";
     switch (control) {
         case 0:
         case 1:
         case 2:
-            strength = "Weak";
-            color = "red";
+            color = "#c80815"; //red
             break;
         case 3:
-            strength = "Medium";
             color = "orange";
             break;
         case 4:
             if (passwd.length > 8) {
-            strength = "Strong";
-            color = "green";
+            color = "#bfff00"; //green
+            pwdStrength = "strong";
             } else {
-            strength = "Medium";
             color = "orange";
             break;
             }
         break;
     }
-    document.getElementById("passStrgth").innerHTML = strength;
-    document.getElementById("passStrgth").style.color = color;
+    document.getElementById("setPwd").style.border = "2px solid " + color;
+}
+
+function passwdMatch(toMatch, passwd2) {
+    if (passwd2.length === 0) {
+        document.getElementById("matchPwd").style.border = "none";
+        return ;
+    }
+    var color = "";
+    if (toMatch != passwd2) {
+        color = "#c80815"; //red
+    } else {
+        color = "#bfff00"; //green
+    }
+    document.getElementById("matchPwd").style.border = "2px solid " + color;
 }

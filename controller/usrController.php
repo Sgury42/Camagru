@@ -13,18 +13,18 @@ function signupAction()
              $error_msg = "Please enter a valid email address.";
         }
         else if (!passwdIsSecure($_POST["passwd"])) {
-            $error_msg = ("Please choose a secure password");
+            $error_msg = ("Please choose a secure password.");
         }
         else if (accountExists($_POST["login"], $_POST["email"])) {
             $error_msg = ("Looks like you already have an account !
-            <a href=\"index.php?action=login\" style=\"text-decoration: underline\">try to connect</a>");
+            <a href=\"index.php?action=login\">try to connect</a>");
         }
         else if (dataExists("users", "email", $_POST["email"])) {
             $error_msg = "An account is already using this e-mail address
-            <a href=\"index.php?action=login\" style=\"text-decoration: underline\">try to connect</a>";
+            <a href=\"index.php?action=login\">try to connect</a>";
         }
         else if (dataExists("users", "login", $_POST["login"])) {
-            $error_msg = "This login is already taken, please choose a new one";
+            $error_msg = "This login is already taken, please choose an other one.";
         }
         else if (!newUsr($_POST["login"], "unverified", $_POST["email"], $_POST["passwd"])) {
             removeUsr($_POST["login"]);
@@ -42,7 +42,7 @@ function signupAction()
             }
         }
     }
-    require_once "view/usr/signin.php";
+    require_once "view/usr/signup.php";
 }
 
 function loginAction() 
@@ -81,6 +81,7 @@ function verifyAction()
 
 function logoutAction()
 {
-    unset($_SESSION["usr_name"]);
+    $_SESSION["usr_name"] = "";
+    $_SESSION["role"] = "";
     header("Location: index.php?action=index");
 }

@@ -12,3 +12,11 @@ function verifyEmail()
             });
     }
 }
+
+function closeAlert(id)
+{
+    // var element = 
+    document.getElementById(id).style.display = "none";
+    // <?php $_SESSION["msg_alert"] = ""; ?>
+    // element.parentNode.removeChild(element);
+}

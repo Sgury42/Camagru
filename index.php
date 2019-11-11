@@ -8,6 +8,7 @@ require_once "core/router.php";
 require_once "model/global.php";
 require_once "controller/homeController.php";
 require_once "controller/usrController.php";
+require_once "controller/customController.php";
 
 if ($_GET['action']) {
     if ($_GET['action'] == 'index') {
@@ -15,6 +16,7 @@ if ($_GET['action']) {
     }
     else {
     usrRouter();
+    customRouter();
     }
 }
 else {

@@ -1,13 +1,17 @@
 <?php ob_start(); ?>
-<div>
-    <p><?php echo $msg; unset($msg); ?></p>
-    <p><?php echo $error_msg; unset($error_msg);?></p>
-    <p>Log In</p>
+<div class="form">
+    <p class="title">Log In</p>
+    <?php if ($msg) {
+        echo "<p>". $msg ."</p>";
+        unset($msg); } ?>
+    <?php if ($error_msg) {
+        echo "<p>". $error_msg . "</p>";
+        unset($error_msg); }?>
     <form method="POST">
         <p>Login:</p>
         <input type="text" name="login" required><br />
         <p>Password:</p>
-        <input type="password" name="passwd" required>
+        <input type="password" name="passwd" required><br />
         <button type="submit" value="submit">Log In !</button>
     </form>
 </div>

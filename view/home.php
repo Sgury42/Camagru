@@ -7,7 +7,7 @@
     <body>
         <header>
             <ul id="menu">
-                <li class="title"><a href="index.php?action=index">Camagru</a></li>
+                <li class="CamagruTitle"><a href="index.php?action=index">Camagru</a></li>
                 <?php if ($_SESSION["usr_name"]) : ?>
                 <li class="navOption"><a href="index.php?action=usrPanel">My Account</a></li>
                 <li class="navOption"><a href="index.php?action=logout">Logout</a></li>                 <!--find a way to logout usr without reload page if on home page? -->
@@ -18,17 +18,22 @@
                 <?php if ($_SESSION['role'] == 'admin') : ?>
                 <li class="navOption"><a href="index.php?action=admin">Admin</a></li>
                 <?php endif; ?>
-                <li class="navOption"><a href="index.php?action=customPanel">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
+                <li class="funButton"><a href="index.php?action=customPanel">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
            </ul>
         </header>
         <div id="main">
-            <div><?php echo $_SESSION["msg_alert"]; unset($_SESSION["msg_alert"]);?></div>
-            <?php echo $content ?>
+            <?php if (ft_isset($_SESSION["msg_alert"])) {
+                echo "<div id='alertBox' style='display:block;'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
+                <p>". $_SESSION["msg_alert"] ."</p></div>";
+                // unset($_SESSION["msg_alert"]);
+            }?>
+            <div class="content"><?php echo $content ?></div>
         </div>
         <footer>
             <p>©sgury 2019</p>
             <a href="">contact</a>
         </footer>
-    <script type="text/javascript" src="./view/usr/signin.js"></script>
+    <script type="text/javascript" src="./view/home.js"></script>
+    <!-- <script type="text/javascript" src="./view/usr/signup.js"></script> -->
     </body>
 </html>
