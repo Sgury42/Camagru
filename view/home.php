@@ -22,11 +22,11 @@
            </ul>
         </header>
         <div id="main">
-            <?php if (ft_isset($_SESSION["msg_alert"])) {
+            <?php if (ft_isset($_GET["msg_alert"])) {
                 echo "<div id='alertBox' style='display:block;'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
-                <p>". $_SESSION["msg_alert"] ."</p></div>";
-                // unset($_SESSION["msg_alert"]);
-            }?>
+                <p>". $_GET["msg_alert"] ."</p></div>";
+                // unset($_GET["msg_alert"]);
+                }?>
             <div class="content"><?php echo $content ?></div>
         </div>
         <footer>
