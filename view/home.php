@@ -3,6 +3,8 @@
         <meta charset="UTF-8">
         <title>Camagru</title>
         <link rel="stylesheet" type="text/css" href="webroot/css/base.css?<?php echo time(); ?>"> <!--MUST TAKE OFF THE TIME PART! -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+
     </head>
     <body>
         <header>
@@ -18,7 +20,7 @@
                 <?php if ($_SESSION['role'] == 'admin') : ?>
                 <li class="navOption"><a href="index.php?action=admin">Admin</a></li>
                 <?php endif; ?>
-                <li class="funButton"><a href="index.php?action=customPanel">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
+                <li class="funButton"><a href="index.php?action=uploadChoice">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
            </ul>
         </header>
         <div id="main">

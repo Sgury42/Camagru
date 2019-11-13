@@ -18,11 +18,14 @@ function usrRouter()
     // homeAction();
 }
 
-function customRouter()
+function pictureRouter()
 {
     switch ($_GET["action"]) {
-        case "customPanel":
-            customAction();
+        case "uploadChoice":
+            uploadChoiceAction();
+            break ;
+        case "shoot":
+            shootAction();
             break ;
     }
 }
