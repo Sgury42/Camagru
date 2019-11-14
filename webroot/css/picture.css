@@ -50,7 +50,7 @@
     cursor: pointer;
 }
 
-#camera {
+.polaBorder {
     margin: auto;
     width: 540px;
     height: 500px;

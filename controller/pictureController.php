@@ -1,19 +1,55 @@
 <?php
+require_once "model/picture.php";
 
-function uploadChoiceAction()
+function checkCustomAccess()
 {
     if (!ft_isset($_SESSION["usr_name"])) {
         $msg_alert = "Hey there ! Please Log in or Sign up to custom your own images !";
         header("Location: index.php?action=index&msg_alert=" . $msg_alert);
     }
+}
+
+function uploadChoiceAction()
+{
+    checkCustomAccess();
     require_once "view/picture/uploadChoice.php";
 }
 
 function shootAction()
 {
-    if (!ft_isset($_SESSION["usr_name"])) {
-        $msg_alert = "Hey there ! Please Log in or Sign up to custom your own images !";
-        header("Location: index.php?action=index&msg_alert=" . $msg_alert);
-    }
+    checkCustomAccess();
     require_once "view/picture/shoot.php";
+}
+
+function rm_uploads($path) {
+    foreach ($path as $file) {
+        unlink($file);
+    }
+}
+
+function uploadAction()
+{
+    checkCustomAccess();
+    if ($_POST["upload"] == "upload" && ft_isset($_FILES)) {
+        if ($_FILES["usr_picture"]["error"] == 2) {
+            $error_msg = "Oups ! Your picture is too big ! Please choose an other one.";
+        }
+        else if ($_FILES["usr_picture"]["error"]) {
+            $error_msg = "Oups ! Something went wrong, please choose an other amazing picture.";
+        }
+        else {
+            array_map('unlink', glob("tmp/uploads/*"));
+            if (!$error_msg = processUpload($_FILES["usr_picture"])) {
+                header("Location: index.php?action=customPanel");
+            }
+        }
+    }
+    require_once "view/picture/uploadPicture.php";
+}
+
+function customAction()
+{
+    checkCustomAccess();
+    print_r($_SESSION);
+    require_once "view/picture/customPanel.php";
 }

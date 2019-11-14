@@ -27,5 +27,11 @@ function pictureRouter()
         case "shoot":
             shootAction();
             break ;
+        case "upload":
+            uploadAction();
+            break ;
+        case "customPanel":
+            customAction();
+            break ;
     }
 }

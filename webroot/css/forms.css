@@ -14,6 +14,7 @@
 
 form {
     display: flex;
+    margin-bottom: 50px;
     flex-direction: column;
     font-size: calc(12px + 0.5vw);
     width: 75%;
@@ -40,3 +41,21 @@ button:hover {background-color:#F0F0F0;}
     border: 2px solid rgb(87, 226, 87);
 } */
 
+#uploadImage {
+    width: 500px;
+    height: 400px;
+    display: flex;
+    flex-direction: column
+}
+
+#uploadImage form {
+    margin: auto;
+    padding-top: 50px;
+}
+#uploadImage form p {
+    font-size: 20px;
+    margin: 50px;
+}
+#uploadImage form button {
+    margin: 50px;
+}

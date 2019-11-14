@@ -62,7 +62,7 @@ function logRequest($login, $passwd)
         $result = getValue("users", "role", "login", $login);
         $role = $result[0]["role"];
         $_SESSION["usr_name"] = $login;
-        $_SESSION["role"] = $login;
+        $_SESSION["role"] = $role;
         return true;
     }
     return false;
