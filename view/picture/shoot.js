@@ -15,7 +15,7 @@
         video.src = window.URL.createObjectURL(localMediaStream);
     }
     }, function(error) {
-//   document.querySelector('#camera_form').style.display = 'none';
+  document.querySelector('#video').style.display = 'none';
     });
 
     // function enableButton() {
@@ -30,13 +30,33 @@
         // document.getElementById('button').removeAttribute('disabled');
     // }
 
-    // function takeSnapshot() {
-        // canvas = document.getElementById('my_canvas');
-        // var ctx = canvas.getContext('2d');
-        // ctx.drawImage(video, 0,0, canvas.width, canvas.height);
-        // imageDataURL = canvas.toDataURL('image/png');
-        // document.getElementById('snapshot_div').style.display = 'block';
-        // document.getElementById('snapshot_img').src = imageDataURL;
-        // document.getElementById('snapshot_input').value = imageDataURL;
-        // document.getElementById('img_form').style.display = 'none';
-    // }
+var i = 0;
+// canvasUrlList = [];
+
+function takePicture() {
+    if (i > 3) {
+        document.getElementById("takePictureBtn").style.display = "none";
+        return ;
+    } else {
+        i += 1;
+        var frame = document.createElement("DIV");
+        frame.setAttribute("class", "littlePolaBorder");
+        var myCanvas = document.createElement("CANVAS");
+        myCanvas.setAttribute("id", "myCanvas")
+
+        // canvas = document.getElementById("canvas");
+        var ctx = myCanvas.getContext('2d');
+        ctx.drawImage(video, 0,0, myCanvas.width, myCanvas.height);
+        frame.appendChild(myCanvas);
+        document.getElementById("topBox").appendChild(frame);
+
+    
+        imageDataURL = myCanvas.toDataURL('image/png');
+        // console.log("imageDataURL = " + imageDataURL);
+
+    // document.getElementById('snapshot_div').style.display = 'block';
+    // document.getElementById('snapshot_img').src = imageDataURL;
+    // document.getElementById('snapshot_input').value = imageDataURL;
+    // document.getElementById('img_form').style.display = 'none';
+    }
+}

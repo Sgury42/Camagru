@@ -1,15 +1,15 @@
 <?php
 
-function imageResize($imageResourceId, $width, $height)
-{
-    $targetWidth = 500;
-    $targetHeight = 500;
+// function imageResize($imageResourceId, $width, $height)
+// {
+//     $targetWidth = 500;
+//     $targetHeight = 500;
 
-    $targetLayer = imagecreatetruecolor($targetWidth, $targetHeight);
-    imagecopyresampled($targetLayer, $imageResourceId, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+//     $targetLayer = imagecreatetruecolor($targetWidth, $targetHeight);
+//     imagecopyresampled($targetLayer, $imageResourceId, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
 
-    return $targetLayer;
-}
+//     return $targetLayer;
+// }
 
 function processUpload($fileInfo)
 {
@@ -23,17 +23,17 @@ function processUpload($fileInfo)
     switch ($imageType) {
         case IMAGETYPE_PNG:
             $imageResourceId = imagecreatefrompng($file);
-            $targetLayer = imageResize($imageResourceId, $sourceProperties[0], $sourceProperties[1]);
+            // $targetLayer = imageResize($imageResourceId, $sourceProperties[0], $sourceProperties[1]);
             imagepng($targetLayer, $folderPath. $fileNewName. "_thump.". $ext);
             break ;
         case IMAGETYPE_GIF:
             $imageResourceId = imagecreatefromgif($file);
-            $targetLayer = imageResize($imageResourceId, $sourceProperties[0], $sourceProperties[1]);
+            // $targetLayer = imageResize($imageResourceId, $sourceProperties[0], $sourceProperties[1]);
             imagegif($targetLayer, $folderPath. $fileNewName. "_thump.". $ext);
             break ;
         case IMAGETYPE_JPEG:
             $imageResourceId = imagecreatefromjpeg($file);
-            $targetLayer = imageResize($imageResourceId, $sourceProperties[0], $sourceProperties[1]);
+            // $targetLayer = imageResize($imageResourceId, $sourceProperties[0], $sourceProperties[1]);
             imagejpeg($targetLayer, $folderPath. $fileNewName. "_thump.". $ext);
             break ;
         default:
