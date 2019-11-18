@@ -1,9 +1,6 @@
 <?php ob_start(); ?>
 <div id="topBox">
-    <!-- <div class="littlePolaBorder"> -->
-        <!-- <canvas id="canvas"></canvas> -->
-    <!-- </div> -->
-</div><br />
+</div>
 <div class="centerBox">
     <div class="polaBorder">
         <video id="video" autoplay></video>
@@ -11,7 +8,7 @@
     <div id="takePictureBtn" class="gradientBorder">
         <div class="pictureButton" onclick="takePicture()">Take a shoot !</div>
     </div>
-    <div class="gradientBorder"><div class="pictureButton" onclick="customePicture()">Customize !</div></div>
+    <!-- <div class="gradientBorder"><button class="pictureButton" type="submit" value="imgURL">Customize !</button></div> -->
 </div>
 <script type="text/javascript" src="./view/picture/shoot.js"></script>
 <?php

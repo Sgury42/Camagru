@@ -18,6 +18,11 @@ function uploadChoiceAction()
 function shootAction()
 {
     checkCustomAccess();
+    if ($_POST["shootToCustom"]) {
+        $_SESSION["usr_shoot"] = $_POST["shootToCustom"];
+        // $_SESSION["usr_shoot"] = str_replace("data:image/png;base64,", "", $_POST["shootToCustom"]);
+        header("Location: index.php?action=customPanel");
+    }
     require_once "view/picture/shoot.php";
 }
 
@@ -50,6 +55,12 @@ function uploadAction()
 function customAction()
 {
     checkCustomAccess();
-    print_r($_SESSION);
+    // print_r($_SESSION);
+    if ($_SESSION["usr_shoot"]) {
+        // header('Content-Type: image/png');
+        $imgShootURL = $_SESSION["usr_shoot"];
+    } else if ($_SESSION["usr_upload"]) {
+        $imgUploadURL = $_SESSION["usr_upload"];
+    }
     require_once "view/picture/customPanel.php";
 }

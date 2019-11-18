@@ -1,7 +1,11 @@
 <?php ob_start(); ?>
 <div class="centerBox">
     <div class="polaBorder">
-        <img id="toCustomize" src=<?php echo "http://localhost:8080/camagru/". $_SESSION["usr_upload"]?> style="display: block; width: 500px; height: 500px"/>
+        <?php if ($imgShootURL) : ?>
+            <img id="toCustomize" src=<?php echo "'". $imgShootURL ."'"?>/>
+        <?php elseif ($imgUploadURL) : ?>
+            <img id="toCustomize" src=<?php echo "http://localhost:8080/camagru/". $imgUploadURL?> />
+        <?php endif ; ?>
     </div>
 </div>
 <!-- <br /> -->
@@ -10,3 +14,4 @@
 <?php
 $content = ob_get_clean();
 require_once "view/home.php";
+?>
