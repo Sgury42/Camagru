@@ -20,16 +20,15 @@
                 <?php if ($_SESSION['role'] == 'admin') : ?>
                 <li class="navOption"><a href="index.php?action=admin">Admin</a></li>
                 <?php endif; ?>
-                <li class="funButton"><a href="index.php?action=uploadChoice">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
+                <li class="funButton"><a href="index.php?action=customPanel&choice=toMake">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
            </ul>
         </header>
         <div id="main">
             <?php if (ft_isset($_GET["msg_alert"])) {
-                echo "<div id='alertBox' style='display:block;'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
+                echo "<div id='alertBox'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
                 <p>". $_GET["msg_alert"] ."</p></div>";
-                // unset($_GET["msg_alert"]);
                 }?>
-            <div class="content"><?php echo $content ?></div>
+            <?php echo $content ?>
         </div>
         <footer>
             <p>©sgury 2019</p>

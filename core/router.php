@@ -21,15 +21,15 @@ function usrRouter()
 function pictureRouter()
 {
     switch ($_GET["action"]) {
-        case "uploadChoice":
-            uploadChoiceAction();
-            break ;
-        case "shoot":
-            shootAction();
-            break ;
-        case "upload":
-            uploadAction();
-            break ;
+        // case "uploadChoice":
+        //     uploadChoiceAction();
+        //     break ;
+        // case "shoot":
+        //     shootAction();
+        //     break ;
+        // case "upload":
+        //     uploadAction();
+        //     break ;
         case "customPanel":
             customAction();
             break ;
