@@ -41,7 +41,7 @@ function takePicture() {
     // frame.setAttribute("class", "PolaBorder");
 
     var myCanvas = document.createElement("CANVAS");
-    myCanvas.setAttribute("class", "myCanvas");
+    myCanvas.setAttribute("class", "toCustomize");
     myCanvas.setAttribute("width", 500)
     myCanvas.setAttribute("height", 375)
 
@@ -60,7 +60,8 @@ function takePicture() {
     var ctx = myCanvas.getContext('2d');
     ctx.drawImage(video, 0, 0, myCanvas.width, myCanvas.height);
     imageDataURL = myCanvas.toDataURL("image/png");
-    // customBtn.setAttribute("value", imageDataURL);
+
+    document.getElementById("shootBtn").setAttribute("value", imageDataURL);
     btnBorder.appendChild(newShootBtn);
     form.appendChild(btnBorder);
     document.getElementById("videoBox").appendChild(myCanvas);
@@ -74,6 +75,8 @@ function takePicture() {
 
     var takePictureBtn = document.getElementById("takePictureBtn");
     takePictureBtn.parentElement.removeChild(takePictureBtn);
+
+    // document.getElementById("sendUsrPicture").submit();
 
 
 

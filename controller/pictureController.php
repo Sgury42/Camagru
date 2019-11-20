@@ -32,37 +32,35 @@ function rm_uploads($path) {
     }
 }
 
-function uploadAction()
+function checkFile()
 {
+    $allowed_ext = array("jpg", "jpeg", "png", "gif");
+    $file_name = $_FILES["usr_picture"]["name"];
+    $file_ext = strtolower(end(explode(".", $file_name)));
+    $error_msg = "";
+
     if ($_FILES["usr_picture"]["error"] == 2) {
         $error_msg = "Oups ! Your picture is too big ! Please choose an other one.";
     }
     else if ($_FILES["usr_picture"]["error"]) {
         $error_msg = "Oups ! Something went wrong, please choose an other amazing picture.";
     }
-    else {
-        array_map('unlink', glob("tmp/uploads/*"));
-        if (!$error_msg = processUpload($_FILES["usr_picture"])) {
-            header("Location: index.php?action=customPanel");
-        }
+    else if (in_array($file_ext, $allowed_ext) === false) {
+        $error_msg = "Extension not allowed, Please choose an other wonderful picture.";
     }
-     require_once "view/picture/uploadPicture.php";
+    
+    return $error_msg;
 }
 
 function customAction()
 {
     checkCustomAccess();
-    echo $_POST . "</br>";
-    echo $_FILES;
-    if ($_POST["upload"] == "upload" && $_GET["choice"] == "toCustomize" && ft_isset($_FILES)) {
-        $uploadedPicture = uploadAction();
-        print_r("uploadedPicture = " . $uploadedPicture);
+    print_r($_POST);
+    if ($_POST["upload"] == "upload" && ft_isset($_FILES["usr_picture"])) {
+        if ($error_msg = checkFile()) {
+            require_once "view/picture/pictureContent.php";
+        }
+        $uploadedPicture = processUpload($_FILES["usr_picture"]);
     }
-    // if ($_SESSION["usr_shoot"]) {
-    //     // header('Content-Type: image/png');
-    //     $imgShootURL = $_SESSION["usr_shoot"];
-    // } else if ($_SESSION["usr_upload"]) {
-    //     $imgUploadURL = $_SESSION["usr_upload"];
-    // }
     require_once "view/picture/pictureContent.php";
 }

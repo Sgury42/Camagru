@@ -1,7 +1,6 @@
 <?php ob_start(); ?>
 <script type="text/javascript" src="./view/picture/pictureContent.js"></script>
 <?php if ($_GET["action"] == "customPanel" && $_GET["choice"] == "shoot") : ?>
-    <?php echo "test"; ?>
     <script>activeCam();</script>
 <?php endif ; ?>
 <?php if ($_GET["action"] == "customPanel" && $_GET["choice"] == "toMake") : ?>
@@ -16,29 +15,24 @@
     <video id="video" autoplay></video>
 </div>
 <div id="takePictureBtn" class="gradientBorder">
-    <div class="pictureButton" onclick="takePicture()">Take a shoot !</div>
+    <!-- <form id="sendUsrPicture" method="POST" onclick="takePicture()"> -->
+        <button id="shootBtn" class="myBtn" type="submit" name="usrShootPicture" onclick="takePicture()">Take a shoot !</button>
+    <!-- </form> -->
 </div>
 <?php elseif ($uploadedPicture) : ?>
-<img id="toCustomize" src=<?php echo "'". $uploadedPicture . "'"?>/>
-<?php elseif ($_GET["action"] == "customPanel" && $_GET["choice"] == "upload" && !$_FILES["usr_picture"]) : ?>
-<div id="upladImage" class="form">
+<div class="polaBorder">
+    <img class="toCustomize" src=<?php echo "'". $uploadedPicture . "'"?>/>
+</div>
+<?php elseif ($_GET["action"] == "customPanel" && $_GET["choice"] == "upload") : ?>
+<div id="uploadImage" class="form">
     <form enctype="multipart/form-data" method="POST">
         <?php if (ft_isset($error_msg)) {
             echo $error_msg ;
         } ?>
         <p>Choose a picture to upload:</p>
         <input name="usr_picture" type="file" />
-        <button type="submit" name="upload" value="upload">Let's cusomize it !</button>
+        <button id="uploadBtn" type="submit" name="upload" value="upload">Let's cusomize it !</button>
     </form>
-</div>
-
-<?php elseif ($_GET["action"] == "customPanel" && $_GET["choice"] == toCustomize) : ?>
-<div class="polaBorder">
-<?php if ($imgShootURL) : ?>
-        <img id="toCustomize" src=<?php echo "'". $imgShootURL ."'"?>/>
-    <?php elseif ($_POST["usr_picture"]) : ?>
-        <img id="toCustomize" src=<?php echo $_POST["usr_picture"]?> />
-    <?php endif ; ?>
 </div>
 <?php endif ; ?>
 
