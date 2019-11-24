@@ -125,3 +125,7 @@ header a{
 .closeDiv:after {
     transform: rotate(-45deg);
 }
+
+.hidden {
+    display: none;
+}

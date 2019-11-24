@@ -12,11 +12,13 @@
 </div>
 <?php elseif ($_GET["action"] == "customPanel" && $_GET["choice"] == "shoot") : ?>
 <div class="polaBorder" id="videoBox">
-    <video id="video" autoplay></video>
+    <img id="preview" alt="filterPreview">
+        <video id="video" autoplay></video>
+    </img>
 </div>
 <div id="takePictureBtn" class="gradientBorder">
     <!-- <form id="sendUsrPicture" method="POST" onclick="takePicture()"> -->
-        <button id="shootBtn" class="myBtn" type="submit" name="usrShootPicture" onclick="takePicture()">Take a shoot !</button>
+        <button id="shootBtn" class="myBtn" type="submit" name="usrShootPicture" onclick="takePicture();">Take a shoot !</button>
     <!-- </form> -->
 </div>
 <?php elseif ($uploadedPicture) : ?>

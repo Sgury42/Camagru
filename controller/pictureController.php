@@ -26,11 +26,11 @@ function checkCustomAccess()
 //     require_once "view/picture/shoot.php";
 // }
 
-function rm_uploads($path) {
-    foreach ($path as $file) {
-        unlink($file);
-    }
-}
+// function rm_uploads($path) {
+//     foreach ($path as $file) {
+//         unlink($file);
+//     }
+// }
 
 function checkFile()
 {
@@ -55,12 +55,21 @@ function checkFile()
 function customAction()
 {
     checkCustomAccess();
-    print_r($_POST);
+    // print_r($_POST);
     if ($_POST["upload"] == "upload" && ft_isset($_FILES["usr_picture"])) {
         if ($error_msg = checkFile()) {
             require_once "view/picture/pictureContent.php";
         }
-        $uploadedPicture = processUpload($_FILES["usr_picture"]);
+        $uploadedPicture = processUploadToB64($_FILES["usr_picture"]);
+    }
+    if ($_POST["save"] == "save" && $_POST["filter"] && $_POST["usrShoot"]) {
+        if (getimagesize($_POST["filter"]) && getimagesize($_POST["usrShoot"])) { //check if png
+            $newImg = applyFilter($_POST["filter"], $_POST["usrShoot"]);
+            echo ("<img src=". $newImg ." />");
+            // saveImg($newImg);
+        } else {
+            $error_msg = "Oups something went wrong, please try again !";
+        }
     }
     require_once "view/picture/pictureContent.php";
 }

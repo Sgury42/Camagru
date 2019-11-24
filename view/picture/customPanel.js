@@ -2,15 +2,29 @@
 //     // this.alert("")
 // }
 var filterSelected;
+var preview = document.getElementById("preview");
+var saveBtn = document.getElementById("saveBtn");
+var filterIn = document.getElementById("filterIn");
+
+if (saveBtn) {
+    saveBtn.disabled = true;
+}
+
+if (preview) {
+    preview.style.display = "none";
+}
 
 if (document.getElementById("uploadBtn")) {
     var btn = document.getElementById("uploadBtn");
+    btn.disabled = true;
 }
 else if (document.getElementById("shootBtn")) {
     var btn = document.getElementById("shootBtn");
+    btn.disabled = true;
 }
 
-btn.disabled = true;
+
+
 
 
 function selectFilter(filter)
@@ -24,5 +38,10 @@ function selectFilter(filter)
     }
     filterSelected = filter;
     btn.disabled = false;
-    btn.setAttribute("data-value", filter);
+    // btn.setAttribute("data-value", filter);
+    preview.setAttribute("src", filter["src"]);
+    preview.style.display = "block";
+
+    filterIn.setAttribute("value", filter["src"]);
+
 }

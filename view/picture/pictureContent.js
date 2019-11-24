@@ -61,7 +61,7 @@ function takePicture() {
     ctx.drawImage(video, 0, 0, myCanvas.width, myCanvas.height);
     imageDataURL = myCanvas.toDataURL("image/png");
 
-    document.getElementById("shootBtn").setAttribute("value", imageDataURL);
+    // document.getElementById("shootBtn").setAttribute("value", imageDataURL);
     btnBorder.appendChild(newShootBtn);
     form.appendChild(btnBorder);
     document.getElementById("videoBox").appendChild(myCanvas);
@@ -75,6 +75,11 @@ function takePicture() {
 
     var takePictureBtn = document.getElementById("takePictureBtn");
     takePictureBtn.parentElement.removeChild(takePictureBtn);
+
+    var saveBtn = document.getElementById("saveBtn");
+    saveBtn.disabled = false;
+    var usrShootIn = document.getElementById("usrShootIn");
+    usrShootIn.setAttribute("value", imageDataURL);
 
     // document.getElementById("sendUsrPicture").submit();
 

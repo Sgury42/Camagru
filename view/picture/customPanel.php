@@ -4,20 +4,25 @@
     <?php if ($_GET["choice"] != "toMake") : ?>
     <div id="customOptions">
         <div id="filterBox">
-            <form method="POST">
                 <?php $files = glob("webroot/img/filters/*.png", GLOB_BRACE);
                 foreach ($files as $file) : ?>
                 <img class="filter" content-type="image/png" onclick="selectFilter(this);" src=<?php echo $file ?> />
-                <button type="submit" name="submitFilter" value=<?php echo $file ?>></button>
                 <?php endforeach ; ?>
-            </form>
         </div>
-        <form id="filterBtns" method="POST">
-        <div class="gradientBorder">
-                <div class="myBtn" onclick="location.href='index.php?action=customPanel&choice=toMake';">start over</div></div>
+        <!-- <form id="filterBtns" method="POST"> -->
+        <div id=filterBtns>
             <div class="gradientBorder">
-                <button class="myBtn" type="submit" name="save" value="save">save</button></div>
-        </form>
+                <div class="myBtn" onclick="location.href='index.php?action=customPanel&choice=toMake';">start over</div>
+            </div>
+            <form id="saveForm" method="POST">
+                <div class="gradientBorder">
+                        <input id="filterIn" class="hidden" name="filter" />
+                        <input id="usrShootIn" class="hidden" name="usrShoot" />
+                    <button id="saveBtn" class="myBtn" type="submit" name="save" value="save">save</button>
+                </div>
+            </form>
+            </div>
+        <!-- </form> -->
     </div>
     <?php endif ; ?>
 </div>
