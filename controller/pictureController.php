@@ -55,7 +55,7 @@ function checkFile()
 function customAction()
 {
     checkCustomAccess();
-    // print_r($_POST);
+    $usr_id = getId($_SESSION["usr_name"]);
     if ($_POST["upload"] == "upload" && ft_isset($_FILES["usr_picture"])) {
         if ($error_msg = checkFile()) {
             require_once "view/picture/pictureContent.php";
@@ -63,13 +63,17 @@ function customAction()
         $uploadedPicture = processUploadToB64($_FILES["usr_picture"]);
     }
     if ($_POST["save"] == "save" && $_POST["filter"] && $_POST["usrShoot"]) {
-        if (getimagesize($_POST["filter"]) && getimagesize($_POST["usrShoot"])) { //check if png
-            $newImg = applyFilter($_POST["filter"], $_POST["usrShoot"]);
-            echo ("<img src=". $newImg ." />");
-            // saveImg($newImg);
+        if (ispng($_POST["filter"]) && ispng($_POST["usrShoot"])) {
+            $imgId = applyAndSave($_POST["filter"], $_POST["usrShoot"]);
+            if (!imgToDb(USR_IMG_FOLDER, $imgId, $usr_id)) {
+                $error_msg = "Oups something went wrong, please try again !";
+                //DELETE IMG FROM FOLDER
+            }
+            //DELETE IMG FROM TMP FOLDER IF IMG STORED IN DB
         } else {
             $error_msg = "Oups something went wrong, please try again !";
         }
     }
+    $pictureBankImgs = getUsrImgs($usr_id);
     require_once "view/picture/pictureContent.php";
 }

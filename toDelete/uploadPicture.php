@@ -1,4 +1,4 @@
-<!-- <?php ob_start(); ?>
+<?php ob_start(); ?>
 <div class="centerBox">
     <div id="uploadImage" class="form">
         <form enctype="multipart/form-data" method="POST">
@@ -16,4 +16,4 @@
 <!-- <script type="text/javascript" src="./view/picture/uploadChoice.js"></script> -->
 <?php
 $content = ob_get_clean();
-require_once "view/home.php"; -->
+require_once "view/home.php";

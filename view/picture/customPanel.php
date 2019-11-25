@@ -27,7 +27,39 @@
     <?php endif ; ?>
 </div>
 <div id="pictureBank">
-    <!-- for each usr picture saved in db display picture + infos + buttons publish, unpublish, delete-->
+    <?php if ($pictureBankImgs) : ?>
+        <?php $i = 0 ?>
+        <?php foreach ($pictureBankImgs as $picture) : ?>
+            <?php $i += 1; ?>
+            <div class="littlePolaBorder">
+                <img class="usrImg" src=<?php echo $picture["imgPath"] ?> onmouseover="showForm(<?php echo $i ?>);" onmouseout="hideForm(<?php echo $i ?>);" />
+                    <form method="POST" class="publishForm" id=<?php echo $i ?> >      <!-- onmouseover="showForm();" onmouseout="hideForm();" -->
+                    <button type="submit" name="publish" <?php if ($picture["published"] == 0) {
+                            echo "value='publish'";
+                        } else {
+                            echo "value='unpublish'";
+                        } ?>></button>
+                    <button type="submit" name="delete" value="delete"></button>
+                </form>
+                <div id="imgInfos">
+                    <div id="likes">
+                        <img class="icon" src=<?php if ($picture["likes_nb"] == 0) {
+                            echo LIKES_ICON_B;
+                        } else {
+                            echo LIKES_ICON_C;
+                        } ?> /><p><?php echo $picture["likes_nb"]; ?></p>
+                    </div>
+                    <div id="comments">
+                        <img class="icon" src=<?php if ($picture["comments_nb"] == 0) {
+                            echo COMMENTS_ICON_B;
+                        } else {
+                            echo COMMENTS_ICON_C;
+                        } ?> /><p><?php echo $picture["comments_nb"]; ?></p>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach ; ?>
+    <?php endif ; ?>
 </div>
 <script type="text/javascript" src="./view/picture/customPanel.js"></script>
 <?php 

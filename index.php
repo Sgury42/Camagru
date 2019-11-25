@@ -5,12 +5,15 @@ session_start();
 // ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(-1);
+require_once "core/defines.php";
 require_once "core/pdo_connect.php";
 require_once "core/router.php";
 require_once "model/global.php";
 require_once "controller/homeController.php";
 require_once "controller/usrController.php";
 require_once "controller/pictureController.php";
+
+// print_r($_SESSION);
 
 if ($_GET['action']) {
     if ($_GET['action'] == 'index') {

@@ -23,10 +23,6 @@ else if (document.getElementById("shootBtn")) {
     btn.disabled = true;
 }
 
-
-
-
-
 function selectFilter(filter)
 {
     if (!filterSelected) {
@@ -44,4 +40,13 @@ function selectFilter(filter)
 
     filterIn.setAttribute("value", filter["src"]);
 
+}
+
+function showForm(id)
+{
+    document.getElementById(id).style.display = "block";
+}
+function hideForm(id)
+{
+    document.getElementById(id).style.display = "none";
 }

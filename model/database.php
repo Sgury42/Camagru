@@ -149,3 +149,33 @@ function removeData($table, $selector, $value)
     }
     return true;
 }
+
+function imgToDb($path, $imgId, $usrId)
+{
+    $db = db_connection();
+    // $base64 = pngToB64($path, $imgId);
+    $sql = "INSERT INTO `usr_images` (`usr_id`, `img_id`)
+            VALUES ('". $usrId ."', '". $imgId ."');";
+    if (!$affected = $db->exec($sql)) {
+        return false ;
+    }
+    return true ;
+}
+
+function getUsrImgs($usrId)
+{
+    $db = db_connection();
+    $usrImgs = [];
+    $sql = "SELECT `img_id` as 'imgPath', `likes_nb`, `comments_nb`, `published` FROM `usr_images`
+            WHERE `usr_id` = '". $usrId ."';";
+    $result = $db->query($sql);
+    if (!$result) {
+        return ($usrImgs);
+    }
+    $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($fetch as $array) {
+        $array["imgPath"] = USR_IMG_FOLDER . $array["imgPath"] . ".png";
+        array_push($usrImgs, $array);
+    }
+    return $usrImgs;
+}

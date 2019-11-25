@@ -10,14 +10,31 @@ function processUploadToB64($fileInfo)
     return $base64;
 }
 
-function applyFilter($filter, $target)
+function applyAndSave($filter, $target)
 {
     $dest = imagecreatefrompng($target);
-    echo "<img src=". $target ." />";
-    exit ;
     $src = imagecreatefrompng($filter);
-    imagecopymerge($dest, $src, 0, 0, 0, 0, 500, 375, 100);
-
+    $imgId = time();
+    imagecopyresampled($dest, $src, 0, 0, 0, 0, 500, 375, 500, 375);
+    imagepng($dest, USR_IMG_FOLDER . $imgId .".png", 0);
     imagedestroy($src);
-    return imagepng($dest, "./Private/usrImgs/".time().".png");
+    imagedestroy($dest);
+    return ($imgId);
 }
+
+function ispng($file)
+{
+    $size = getimagesize($file);
+    if ($size["mime"] != "image/png") {
+        return flase ;
+    }
+    return true ;
+}
+
+// function pngToB64($folderPath, $imgId)
+// {
+//     $path = $folderPath . $imgId . ".png";
+//     $data = file_get_contents($path);
+//     $base64 = "data:image/png;base64,". base64_encode($data);
+//     return $base64;
+// }

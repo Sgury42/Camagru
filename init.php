@@ -18,7 +18,17 @@ $createTables = "
     CREATE TABLE `codes` (
         `usr_id` INT NOT NULL,
         `usage` ENUM('new_pwd', 'verify_email') NOT NULL,
-        `code` BLOB NOT NULL);";
+        `code` BLOB NOT NULL);
+        
+    CREATE TABLE `usr_images` (
+        `usr_id` INT NOT NULL,
+        `img_id` INT NOT NULL,
+        `comments_id` VARCHAR(255),
+        `likes_id` VARCHAR(255),
+        `comments_nb` INT NOT NULL DEFAULT 0,
+        `likes_nb` INT NOT NULL DEFAULT 0,
+        `published` ENUM('y', 'n') DEFAULT 'n');
+    );";
 
 if (!$affected = $db->exec($createTables)) {
     echo "oups something went wrong !";

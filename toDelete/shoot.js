@@ -38,7 +38,7 @@ function takePicture()
     i += 1;
     if (i <= 4) {
         var frame = document.createElement("DIV");
-        frame.setAttribute("class", "littlePolaBorder");
+        frame.setAttribute("class", "PolaBorder");
 
         var myCanvas = document.createElement("CANVAS");
         myCanvas.setAttribute("class", "myCanvas");
