@@ -71,7 +71,8 @@ function checkPasswd($login, $passwd)
     $id = $id[0]["id"];
     $sql = "SELECT AES_DECRYPT(`pwd`, 'secret')
         AS `pwd` FROM `private`
-        WHERE `usr_id` = '" . $id . "';";
+        WHERE `usr_id` = '" . $id . "'
+        LIMIT 1;";
     $result = $db->query($sql);
     $pwd = $result->fetchAll(PDO::FETCH_ASSOC);
     if ($passwd == $pwd[0]['pwd']) {
@@ -84,7 +85,8 @@ function getCode($id) {
     $db = db_connection();
     $sql = "SELECT AES_DECRYPT(`code`, 'uniquecodeforsafety')
         AS `code` FROM `codes`
-        WHERE `usr_id` = '" . $id . "';";
+        WHERE `usr_id` = '" . $id . "'
+        LIMIT 1;";
         $result = $db->query($sql);
         $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
         $code = $fetch[0]["code"];
@@ -166,16 +168,38 @@ function getUsrImgs($usrId)
 {
     $db = db_connection();
     $usrImgs = [];
-    $sql = "SELECT `img_id` as 'imgPath', `likes_nb`, `comments_nb`, `published` FROM `usr_images`
+    $sql = "SELECT `img_id`, `likes_nb`, `comments_nb`, `published` FROM `usr_images`
             WHERE `usr_id` = '". $usrId ."';";
     $result = $db->query($sql);
     if (!$result) {
         return ($usrImgs);
     }
-    $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
-    foreach ($fetch as $array) {
-        $array["imgPath"] = USR_IMG_FOLDER . $array["imgPath"] . ".png";
-        array_push($usrImgs, $array);
-    }
+    $usrImgs = $result->fetchAll(PDO::FETCH_ASSOC);
     return $usrImgs;
+}
+
+function getImgOwner($imgId)
+{
+    $db = db_connection();
+    $sql = "SELECT `usr_id` FROM `usr_images`
+            WHERE `img_id` = '". $imgId ."'
+            LIMIT 1;";
+    $result = $db->query($sql);
+    $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
+    $usrId = $fetch[0]["usr_id"];
+    return $usrId;
+}
+
+function getFeedImgs()
+{
+    $db = db_connection();
+    $feedImgs = [];
+    $sql = "SELECT * FROM `usr_images`
+            WHERE `published` = 'y';";
+    $result = $db->query($sql);
+    if (!$result) {
+        return $feedImgs;
+    }
+    $feedImgs = $result->fetchAll(PDO::FETCH_ASSOC);
+    return $feedImgs;
 }

@@ -31,6 +31,37 @@ function ispng($file)
     return true ;
 }
 
+function isOwner($imgId, $usr_name)
+{
+    $usrId = getId($usr_name);
+    $imgOwner = getImgOwner($imgId);
+    if ($usrId == $imgOwner) {
+        return true ;
+    }
+    return false ;
+}
+
+function deleteImg($imgId)
+{
+    if (isOwner($imgId, $_SESSION["usr_name"])) {
+        unlink(USR_IMG_FOLDER.$imgId.".png");
+        removeData("usr_images", "img_id", $imgId);
+        //remove comments in comments tab
+    }
+}
+
+function publishManagement($action, $imgId)
+{
+    if (isOwner($imgId, $_SESSION["usr_name"])) {
+        if ($action == "publish")
+        {
+            editData("usr_images", "published", "y", "img_id", $imgId);
+        } else if ($action == "unpublish") {
+            editData("usr_images", "published", "n", "img_id", $imgId);
+        }
+    }
+}
+
 // function pngToB64($folderPath, $imgId)
 // {
 //     $path = $folderPath . $imgId . ".png";
@@ -38,3 +69,17 @@ function ispng($file)
 //     $base64 = "data:image/png;base64,". base64_encode($data);
 //     return $base64;
 // }
+
+function likedImgs($usrName, $imgs)
+{
+    $usrId = getId($usrName);
+    foreach ($imgs as &$img) {
+        $likes = unserialize($img["likes_id"]);
+        if ($likes) {
+            if (in_array($usrId, $likes)) {
+                $img["liked"] = true ;
+            }
+        }
+    }
+    return $imgs ;
+}

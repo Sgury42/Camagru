@@ -67,12 +67,20 @@ function customAction()
             $imgId = applyAndSave($_POST["filter"], $_POST["usrShoot"]);
             if (!imgToDb(USR_IMG_FOLDER, $imgId, $usr_id)) {
                 $error_msg = "Oups something went wrong, please try again !";
-                //DELETE IMG FROM FOLDER
+                if (USR_IMG_FOLDER.$imgId.".png") {
+                    unlink(USR_IMG_FOLDER.$imgId.".png");
+                }
             }
             //DELETE IMG FROM TMP FOLDER IF IMG STORED IN DB
         } else {
             $error_msg = "Oups something went wrong, please try again !";
         }
+    }
+    if ($_POST["delete"] == "delete" && $_POST["imgId"]) {
+        deleteImg($_POST["imgId"]);
+    }
+    if ($_POST["publish"] && $_POST["imgId"]) {
+        publishManagement($_POST["publish"], $_POST["imgId"]);
     }
     $pictureBankImgs = getUsrImgs($usr_id);
     require_once "view/picture/pictureContent.php";

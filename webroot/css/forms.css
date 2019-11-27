@@ -24,14 +24,6 @@ input {
     height: 30px;
     outline: none;
 }
-button {
-    height: 30px;
-    font: calc(12px + 0.4vw) Lucida Sans Unicode, sans-serif;
-    background-color: white;
-    border-radius: 4px;
-    outline: none;
-}
-button:hover {background-color:#F0F0F0;}
 
 .advice {
     font-size: calc(12px + 0.1vw);
