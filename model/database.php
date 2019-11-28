@@ -190,16 +190,47 @@ function getImgOwner($imgId)
     return $usrId;
 }
 
-function getFeedImgs()
+function getFeedImgs($limit, $offset)
 {
     $db = db_connection();
     $feedImgs = [];
     $sql = "SELECT * FROM `usr_images`
-            WHERE `published` = 'y';";
+            WHERE `published` = 'y'
+            LIMIT ". $limit ."
+            OFFSET ". $offset .";";
     $result = $db->query($sql);
     if (!$result) {
         return $feedImgs;
     }
     $feedImgs = $result->fetchAll(PDO::FETCH_ASSOC);
     return $feedImgs;
+}
+
+function getGeneralData($toSelect) {
+    $db = db_connection();
+    $sql = "SELECT ". $toSelect ." FROM `general`;";
+    $result = $db->query($sql);
+    $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
+    return ($fetch);
+}
+
+function updateGeneral($column, $newValue)
+{
+    $db = db_connection();
+    $sql = "UPDATE `general`
+            SET ". $column ." = ". $newValue .";";
+    if (!$affected = $db->exec($sql)) {
+        return false;
+    }
+    return true;
+}
+
+function dbCount($table, $targetName, $value)
+{
+    $db = db_connection();
+    $sql = "SELECT COUNT(*) AS `total` FROM `". $table ."`
+            WHERE `". $targetName . "` = '". $value ."';";
+    $result = $db->query($sql);
+    $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
+    return $fetch[0]["total"];
 }

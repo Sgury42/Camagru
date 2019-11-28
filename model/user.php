@@ -74,6 +74,10 @@ function firstLog($login, $passwd, $code)
         $result = getValue("users", "id", "login", $login);
         $id = $result[0]['id'];
         if (editData("users", "role", "client", "login", $login) && removeData("codes", "usr_id", $id)) {
+            $queryResult = getGeneraldata("total_usr");
+            $totalUsr = $queryResult[0]["total_usr"];
+            $totalUsr += 1;
+            updateGeneral("total_usr", $totalUsr);
             $_SESSION["usr_name"] = $login;
             $_SESSION["role"] = "client";
             return true;

@@ -3,8 +3,8 @@
 <?php foreach ($feedImgs as $img) : ?>
     <div class="polaBorder">
         <img class="feedImg" src=<?php echo USR_IMG_FOLDER . $img["img_id"] . ".png"; ?> />
-        <div id="imgInfos">
-            <form method="POST">
+        <form method="POST">
+            <div id="imgInfos">
                 <input class="hidden" name="imgId" value=<?php echo $img["img_id"] ?> />
                 <div id="likes">
                     <button type="submit" name="like" value=<?php if ($img["liked"]) {
@@ -25,11 +25,15 @@
                         echo COMMENTS_ICON_C ." /> <p>". $img["comments_nb"] ."</p>";
                     } ?>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 <?php endforeach; ?>
 </div>
+<form id="backAndNext" method="POST">
+    <button type="submit" name="move" value="back"><-</button>
+    <button type="submit" name="move" value="next">-></button>
+</form>
 <script type="text/javascript" src="./view/home/feed.js"></script>
 <?php
 $content = ob_get_clean();

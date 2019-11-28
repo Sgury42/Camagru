@@ -3,6 +3,7 @@
 #customPanel {
     display: flex;
     flex-direction: row;
+    max-height: 1000px;
 }
 
 #customBox {

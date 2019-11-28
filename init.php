@@ -28,6 +28,13 @@ $createTables = "
         `comments_nb` INT NOT NULL DEFAULT 0,
         `likes_nb` INT NOT NULL DEFAULT 0,
         `published` ENUM('y', 'n') DEFAULT 'n');
+
+    CREATE TABLE `general` (
+        `total_img` INT NOT NULL DEFAULT 0,
+        `total_usr` INT NOT NULL DEFAULT 0);
+
+    INSERT INTO `general` (`total_img`, `total_usr`)
+    VALUE (0, 0);
     );";
 
 if (!$affected = $db->exec($createTables)) {

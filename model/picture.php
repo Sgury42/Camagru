@@ -19,6 +19,10 @@ function applyAndSave($filter, $target)
     imagepng($dest, USR_IMG_FOLDER . $imgId .".png", 0);
     imagedestroy($src);
     imagedestroy($dest);
+    $totalImg = getGeneralData("total_img");
+    $totalImg = $totalImg[0]["total_img"] + 1;
+    updateGeneral("total_img", $totalImg);
+
     return ($imgId);
 }
 
@@ -46,6 +50,11 @@ function deleteImg($imgId)
     if (isOwner($imgId, $_SESSION["usr_name"])) {
         unlink(USR_IMG_FOLDER.$imgId.".png");
         removeData("usr_images", "img_id", $imgId);
+        $totalImg = getGeneralData("total_img");
+        $totalImg = $totalImg[0]["total_img"] - 1;
+        if ($totalImg >= 0) {
+            updateGeneral("total_img", $totalImg);
+        }
         //remove comments in comments tab
     }
 }

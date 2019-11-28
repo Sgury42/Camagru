@@ -1,9 +1,10 @@
 #feed {
     display: flex;
+    flex-wrap: wrap;
 }
 
 #feed .polaBorder {
-    margin: 50px;
+    margin: 50px auto;
 }
 
 .feedImg {
@@ -22,4 +23,8 @@
     width: fit-content;
     height: fit-content;
     border: none;
+}
+
+#backAndNext {
+    display: block;
 }
