@@ -39,6 +39,7 @@ function likeAction($action, $imgId, $usrId)
 
 function homeAction()
 {
+    print_r($_POST);
     if (ft_isset($_POST["like"]) || ft_isset($_POST["comment"])) {
         checkUsrRights($_POST["like"], $_POST["comment"]);
     }
@@ -49,18 +50,7 @@ function homeAction()
     // if ($_POST["comment"] && $_POST["imgId"] && $_SESSION["usr_name"]) {
     //      code to display comment page
     // }
-    if (!ft_isset($_SESSION["page"])) {
-        $pageIndex = 0;
-    } else {
-        $pageIndex = $_SESSION["page"];
-    }
-    if (ft_isset($_POST["move"])) {
-        if (!$feedImgs = pageMove($_POST["move"], $pageIndex)) {
-            $_SESSION["page"] = 0;
-            header("Location: index.php/action=index");
-        }
-    } else {
-        $feedImgs = pageMove(0, $pageIndex);
-    }
+    $feedImgs = getFeedImgs(IMG_PER_PAGE, 0);
+    $feedImgs = likedImgs($_SESSION["usr_name"], $feedImgs);
     require_once "view/home/feed.php";
 }

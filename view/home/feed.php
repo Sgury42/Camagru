@@ -30,10 +30,6 @@
     </div>
 <?php endforeach; ?>
 </div>
-<form id="backAndNext" method="POST">
-    <button type="submit" name="move" value="back"><-</button>
-    <button type="submit" name="move" value="next">-></button>
-</form>
 <script type="text/javascript" src="./view/home/feed.js"></script>
 <?php
 $content = ob_get_clean();
