@@ -22,7 +22,8 @@ function likeAction($action, $imgId, $usrId)
 
     if ($queryLikesId) {
         $likesId = unserialize($queryLikesId[0]["likes_id"]);
-    } else {
+    }
+    if (!$likesId) {
         $likesId = [];
     }
     if ($action == "like" && !in_array($usrId, $likesId)) {
@@ -39,7 +40,6 @@ function likeAction($action, $imgId, $usrId)
 
 function homeAction()
 {
-    print_r($_POST);
     if (ft_isset($_POST["like"]) || ft_isset($_POST["comment"])) {
         checkUsrRights($_POST["like"], $_POST["comment"]);
     }

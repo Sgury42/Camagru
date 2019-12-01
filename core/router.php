@@ -35,3 +35,12 @@ function pictureRouter()
             break ;
     }
 }
+
+function ajaxRouter()
+{
+    switch ($_GET["action"]) {
+        case "scrollDown":
+            scrollDown($_GET["index"]);
+            break ;
+    }
+}

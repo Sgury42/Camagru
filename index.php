@@ -12,9 +12,10 @@ require_once "model/global.php";
 require_once "controller/homeController.php";
 require_once "controller/usrController.php";
 require_once "controller/pictureController.php";
+require_once "controller/ajaxController.php";
 
 // print_r($_SESSION);
-print_r($_POST);
+// print_r($_POST);
 // print_r($_GET);
 
 
@@ -23,8 +24,9 @@ if ($_GET['action']) {
         homeAction();
     }
     else {
-    usrRouter();
-    pictureRouter();
+        usrRouter();
+        pictureRouter();
+        ajaxRouter();
     }
 }
 else {

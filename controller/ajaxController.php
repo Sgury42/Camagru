@@ -10,6 +10,6 @@ function scrollDown($index)
         $offset = IMG_PER_PAGE * $index;
         $feedImgs = getFeedImgs(IMG_PER_PAGE, $offset);
         $feedImgs = likedImgs($_SESSION["usr_name"], $feedImgs);
-        return $feedImgs;
+        echo json_encode($feedImgs);
     }
 }

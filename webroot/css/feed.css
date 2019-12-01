@@ -7,22 +7,37 @@
     margin: 50px auto;
 }
 
+.polaBorder .imgInfos {
+    display: flex;
+    flex-direction: row;
+}
+
 .feedImg {
     margin: 30px 20px auto 20px;
     width: 500px;
     height: 375px;
 }
+
 #feed .icon {
     width: 50px;
 }
 #feed p {
     font-size: 20px;
+    align-self: center;
 }
 
-#imgInfos button {
+.imgInfos button {
     width: fit-content;
     height: fit-content;
     border: none;
+    margin: auto;
+}
+
+.imgInfos .infos {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    height: 100;
 }
 
 #backAndNext {
