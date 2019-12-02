@@ -81,8 +81,8 @@ function verifyAction()
 
 function logoutAction()
 {
-    $_SESSION["usr_name"] = "";
-    $_SESSION["role"] = "";
+    unset($_SESSION["usr_name"]);
+    unset($_SESSION["role"]);
     array_map('unlink', glob("tmp/uploads/*"));
     header("Location: index.php?action=index");
 }
