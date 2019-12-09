@@ -9,6 +9,7 @@ $createTables = "
         `login` VARCHAR(15) NOT NULL,
         `role` ENUM('client', 'admin', 'unverified') NOT NULL,
         `email` VARCHAR(80) NOT NULL,
+        `notifications` ENUM('y', 'n') DEFAULT 'y',
         `creation_date` DATE NOT NULL);
         
     CREATE TABLE `private` (
@@ -35,6 +36,13 @@ $createTables = "
 
     INSERT INTO `general` (`total_img`, `total_usr`)
     VALUE (0, 0);
+
+    CREATE TABLE `comments` (
+        `comment_id` VARCHAR(25) NOT NULL, 
+        `usr_id` INT NOT NULL,
+        `img_id` INT NOT NULL,
+        `text` VARCHAR(255) NOT NULL,
+        `date` DATETIME NOT NULL);
     );";
 
 if (!$affected = $db->exec($createTables)) {

@@ -130,7 +130,8 @@
     margin: auto;
     top: 20%;
     width: 540px;
-    height: 500px;
+    min-height: 500px;
+    height: fit-content;
     background-color: white;
     border: 1px solid #B0B0B0;
     position: relative;

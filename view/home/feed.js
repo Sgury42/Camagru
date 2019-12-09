@@ -37,7 +37,26 @@ function scrollFunction()
 function doAction(action, element) {
     if (action == "like") {
         likeFunction(element);
+    } else if (action == "comment") {
+        commentFunction(element);
+    } else if (action == "newcomment") {
+        newComment(element);
     }
+}
+
+function alertMsg(action)
+{
+    var alertBox = document.createElement("DIV");
+    alertBox.setAttribute("id", "alertBox");
+    var mainBox = document.getElementById("main");
+    mainBox.prepend(alertBox);
+    closeBtn = document.createElement("DIV");
+    closeBtn.setAttribute("class", "closeDiv");
+    closeBtn.setAttribute("onclick", "closeAlert('alertBox')");
+    alertBox.appendChild(closeBtn);
+    var msg = document.createElement("P");
+    msg.textContent = "Please Log In or Sign Up to " + action + " those beautiful images !";
+    alertBox.appendChild(msg);
 }
 
 function checkRights(action, element)
@@ -52,16 +71,15 @@ function checkRights(action, element)
                  if (rights == 1) {
                      doAction(action, element);
                  } else {
+                     alertMsg(action);
                     return ;
-                    //CREATE A DIV DISPLAYING HAVE TO LOG IN TO LIKE IMG OR COMMENT 
-                    //CREATE A NEW FUNCTION SO CAN BE REUSED :)
                  }
             } if (xmlhttp.status === 200) {
-                console.log(xmlhttp.responseText);
+                // console.log(xmlhttp.responseText);
             }
         } else {
-            console.log("readyState = " + xmlhttp.readyState);
-            console.log("ERROR = " + xmlhttp.status);
+            // console.log("readyState = " + xmlhttp.readyState);
+            // console.log("ERROR = " + xmlhttp.status);
         }
     }
     xmlhttp.send();
@@ -69,7 +87,7 @@ function checkRights(action, element)
 
 function likeFunction(element)
 {
-    console.log(element);
+    // console.log(element);
     var action = element.value;
     var parent = element.parentNode.parentNode.parentNode;
     var imgId = parent.previousElementSibling.id;
@@ -93,7 +111,7 @@ function likeFunction(element)
                     likesCountNb -= 1;
                     likesCountEl.textContent = likesCountNb;
                 } if (xmlhttp.status === 200) {
-                    // console.log(xmlhttp.responseText);
+                    console.log(xmlhttp.responseText);
                 }
             } //else {
             //    console.log("readyState = " + xmlhttp.readyState);
@@ -105,8 +123,66 @@ function likeFunction(element)
     }
 }
 
-function comment(element) {
-    console.log(element);
+function closeDiv(element)
+{
+    var parent = element.parentNode;
+    parent.style.display = "none";
+}
+
+function commentFunction(element) {
+    var commentsDisplay = element.parentNode.parentNode.parentNode.nextElementSibling.firstElementChild.nextElementSibling;
+    var imgId = element.parentNode.parentNode.parentNode.parentNode.firstElementChild.id;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", "index.php?action=getComments&imgId="+ imgId, true);
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4) {
+            if (xmlhttp.responseText) {
+                console.log("ajax done! status = " + xmlhttp.status);
+                var comments = JSON.parse(xmlhttp.responseText);
+                console.log(comments);
+                displayComments(commentsDisplay, comments);
+                } if (xmlhttp.status === 200) {
+                // console.log(xmlhttp.responseText);
+            }
+        } else {
+            // console.log("readyState = " + xmlhttp.readyState);
+            // console.log("ERROR = " + xmlhttp.status);
+        }
+    }
+    xmlhttp.send();
+
+
+    var commentBox = element.parentNode.parentNode.parentNode.nextElementSibling;
+    commentBox.style.display = "flex";
+}
+
+function removeComment(element) {
+    // close div function + send POST ajax to remove comment from db
+}
+
+function newComment(element, img_id) {
+    //get the text and img id
+    var comment = element.previousElementSibling.value;
+    var img_id = element.parentNode.parentNode.parentNode.firstElementChild.id;
+    //send POST request with ajax to put new comment in db
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "index.php?action=newcomment", true);
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4) {
+            console.log("ajax done ! readyState = "+ xmlhttp.readyState);
+            //display comment on the list
+            if (xmlhttp.status === 200) {
+                console.log(xmlhttp.responseText);
+            }
+        } else {
+            console.log("readyState = " + xmlhttp.readyState);
+            console.log("ERROR = " + xmlhttp.status);
+        }
+    }
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("comment=" + comment + "&imgId=" + img_id);
+    //remove text from textarea 
+    element.previousElementSibling.value = "";
 }
 
 function displayImgs(imgs)
@@ -154,5 +230,28 @@ function displayImgs(imgs)
         //add comment form;
 
         feed.appendChild(polaBorder);
+    });
+}
+
+function displayComments(commentsDisplay, comments)
+{
+    comments.forEach(element => {
+        var comment = document.createElement("DIV");
+        comment.setAttribute("class", "singleComment");
+        var commentInfo = document.createElement("DIV");
+        commentInfo.setAttribute("class", "commentInfo");
+        var author = document.createElement("DIV");
+        author.setAttribute("class", "commentAuthor");
+        author.textContent = element["author_name"];
+        var date = document.createElement("DIV");
+        date.setAttribute("class", "commentDate");
+        date.textContent = element["date"];
+        commentInfo.appendChild(author);
+        commentInfo.appendChild(date);
+        comment.appendChild(commentInfo);
+        var text = document.createElement("DIV");
+        text.textContent = element["text"];
+        comment.appendChild(text);
+        commentsDisplay.appendChild(comment);
     });
 }

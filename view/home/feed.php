@@ -19,17 +19,21 @@
                     <p><?php echo $img["likes_nb"] ?></p>
                 </div>
             </form>
-            <form method="POST">
+            <form>
                 <div class="infos">
-                    <button type="button" name="comment" onclick="comment(this)" value="newComment">
-                    <img class="icon" src=<?php if ($img["comments_nb"] == 0) {
-                        echo COMMENTS_ICON_B;
-                    } else {
-                        echo COMMENTS_ICON_C;
-                    } ?> /></button>
+                    <button type="button" name="comment" onclick="checkRights('comment', this)">
+                    <img class="icon" src=<?php echo COMMENTS_ICON_B; ?> /></button>
                     <p><?php echo $img["comments_nb"] ?></p>
                 </div>
             </form>
+        </div>
+        <div id="commentBox" style="display: none">
+            <div class="closeDiv" onclick="closeDiv(this)" style="opacity: 100%;"></div>
+            <div class="commentsDisplay"></div>
+            <div class="commentForm">
+                <textarea type="text" maxlength="250" name="newComment" ></textarea>
+                <button type="button" name="sendComment" onclick="checkRights('newcomment', this)">Send !</button>
+            </div>
         </div>
     </div>
 <?php endforeach; ?>

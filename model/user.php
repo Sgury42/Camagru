@@ -46,6 +46,29 @@ function signinMail($to_email, $login)
 
 }
 
+function notificationEmail($fromUsrName, $value, $login, $to_email)
+{
+    $subject = "Hi ". $login . ", there is something new on your Camagru account !!!";
+    $message = "
+    <html>
+        <head>
+            <title>You got a new comment !!</title>
+        </head>
+        <body>
+            <p>How is it going ". $login ." ?</p>
+            <p>One of your fabulous picture got a new comment from ". $fromUsrName ." !</p>
+            <p>It says: </p>
+            <p>". $value ."</p>
+        </body>
+    </html>";
+    $header = "Content-type: text/html; charset='UTF-8'";
+    if (mail($to_email, $subject, $message, $header)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function isVerified($login)
 {
     $result = getValue("users", "role", "login", $login);

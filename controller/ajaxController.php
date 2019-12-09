@@ -1,4 +1,6 @@
 <?php
+require_once "model/user.php";
+require_once "model/database.php";
 
 function scrollDown($index)
 {
@@ -16,27 +18,27 @@ function scrollDown($index)
 
 function checkUsrRights($action)
 {
-    if (!ft_isset($_SESSION["usr_name"]) && $action == "like") {
-        // $msg_alert = "Hey there ! Please Log in or Sign up to like those amazing pictures !";
-        // header("Location: index.php?action=index&msg_alert=" . $msg_alert);
-        echo 0;
-    }
-    else if (!ft_isset($_SESSION["usr_name"]) && $action == "comment") {
-        // $msg_alert = "Hey there ! Please Log in or Sign up to comment those beautiful pictures !";
-        // header("Location: index.php?action=index&msg_alert=" . $msg_alert);
+    if (!ft_isset($_SESSION["usr_name"])) {
         echo 0;
     } else {
         echo 1;
     }
+    // if (!ft_isset($_SESSION["usr_name"]) && $action == "like" ) {
+        // echo 0;
+    // }
+    // else if (!ft_isset($_SESSION["usr_name"]) && $action == "comment") {
+        // echo 0;
+    // } else {
+        // echo 1;
+    // }
 }
 
 function likeAction($action, $imgId)
 {
-    // checkUsrRights("like");
     $queryLikesNb = getValue("usr_images", "likes_nb", "img_id", $imgId);
     $queryLikesId = getValue("usr_images", "likes_id", "img_id", $imgId);
     $likesNb = $queryLikesNb[0]["likes_nb"];
-    $usrId = getId($usrName);
+    $usrId = getId($_SESSION["usr_name"]);
 
     if ($queryLikesId) {
         $likesId = unserialize($queryLikesId[0]["likes_id"]);
@@ -54,4 +56,48 @@ function likeAction($action, $imgId)
     }
     editData("usr_images", "likes_nb", $likesNb, "img_id", $imgId);
     editData("usr_images", "likes_id", serialize($likesId), "img_id", $imgId);
+}
+
+function newCommentAction()
+{
+    $comment = trim($_POST["comment"]);
+    $imgId = $_POST["imgId"];
+    $usrId = getId($_SESSION["usr_name"]);
+    $commentId = "COM". time();
+    $queryCommentNb = getValue("usr_images", "comments_nb", "img_id", $imgId);
+    $commentNb = $queryCommentNb[0]["comments_nb"];
+    $queryCommentsId = getValue("usr_images", "comments_id", "img_id", $imgId);
+    if ($comment && $imgId && $usrId) {
+        newCommentToDb($commentId, $comment, $imgId, $usrId);
+        $commentNb += 1;
+        if ($queryCommentsId[0]["comments_id"]) {
+            $commentsId = unserialize($queryCommentsId[0]["comments_id"]);
+        } else {
+            $commentsId = [];
+        }
+        array_push($commentsId, $commentId);
+        editData("usr_images", "comments_nb", $commentNb, "img_id", $imgId);
+        editData("usr_images", "comments_id", serialize($commentsId), "img_id", $imgId);
+        $ownerId = getValue("usr_img", "usr_id", "img_id", $imgId);
+        $ownerInfo = getValue("users", "login`, `notifications`, `email", "id", $ownerId[0]["usr_id"]);
+        if ($ownerInfo[0]["notifications"] == "y") {
+            echo $ownerInfo;
+            if (notificationEmail($_SESSION["usr_name"], $comment, $ownerInfo[0]["login"], $ownerInfo[0]["email"])) {
+                echo "email have been sent !";
+            }
+        }
+    }
+}
+
+function getCommentsAction()
+{
+    $imgId = $_GET["imgId"];
+    if ($imgId) {
+        $comments = getValue("comments", "*", "img_id", $imgId);
+        foreach ($comments as &$comment) {
+            $getAuthorName = getValue("users", "login", "id", $comment["usr_id"]);
+            $comment["author_name"] = $getAuthorName[0]["login"];
+        }
+        echo json_encode($comments);
+    }
 }

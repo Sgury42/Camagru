@@ -234,3 +234,21 @@ function dbCount($table, $targetName, $value)
     $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
     return $fetch[0]["total"];
 }
+
+function newCommentToDb($commentId, $comment, $imgId, $usrId)
+{
+    $db = db_connection();
+    $stmt = $db->prepare("INSERT INTO `comments` 
+                (`comment_id`, `usr_id`, `img_id`, `text`, `date`)
+                VALUES (?, ?, ?, ?, NOW());");
+    $params = array($commentId, $usrId, $imgId, $comment);
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+    } finally {
+        if ($stmt !== null) {
+            $stmt->closeCursor();
+        }
+    }
+}

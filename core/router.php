@@ -42,11 +42,18 @@ function ajaxRouter()
         case "scrollDown":
             scrollDown($_GET["index"]);
             break ;
-        // case "like":
-            // likeAction($_POST["action"], $_POST["imgId"]);
-            // break ;
+        case "like":
+            likeAction($_POST["action"], $_POST["imgId"]);
+            break ;
         case "checkUsrRights":
             checkUsrRights($_GET["request"]);
             break ;
+        case "newcomment":
+            newCommentAction();
+            break ;
+        case "getComments":
+            getCommentsAction();
+            break ;
+
     }
 }
