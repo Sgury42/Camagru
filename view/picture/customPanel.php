@@ -36,7 +36,7 @@
                     <img class="usrImg" src=<?php echo USR_IMG_FOLDER . $picture["img_id"] . ".png"; ?> onmouseover="showForm(<?php echo $i ?>);" onmouseout="hideForm(<?php echo $i ?>);" />
                         <form method="POST" class="publishForm" id=<?php echo $i ?> >      <!-- onmouseover="showForm();" onmouseout="hideForm();" -->
                         <input class="hidden" name="imgId" value=<?php echo $picture["img_id"] ?> />
-                        <?php if ($picture["published"] == 'n') : ?>
+                        <?php if ($picture["published"] == 0) : ?>
                             <button type="submit" name="publish" value="publish">publish</button>
                         <?php else : ?>
                             <button type="submit" name="publish" value="unpublish">unpublish</button>

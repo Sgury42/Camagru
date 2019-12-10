@@ -140,6 +140,9 @@ function commentFunction(element) {
                 console.log("ajax done! status = " + xmlhttp.status);
                 var comments = JSON.parse(xmlhttp.responseText);
                 console.log(comments);
+                while (commentsDisplay.firstChild) {
+                    commentsDisplay.removeChild(commentsDisplay.firstChild);
+                }
                 displayComments(commentsDisplay, comments);
                 } if (xmlhttp.status === 200) {
                 // console.log(xmlhttp.responseText);
@@ -164,24 +167,35 @@ function newComment(element, img_id) {
     //get the text and img id
     var comment = element.previousElementSibling.value;
     var img_id = element.parentNode.parentNode.parentNode.firstElementChild.id;
-    //send POST request with ajax to put new comment in db
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "index.php?action=newcomment", true);
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === 4) {
-            console.log("ajax done ! readyState = "+ xmlhttp.readyState);
-            //display comment on the list
-            if (xmlhttp.status === 200) {
-                console.log(xmlhttp.responseText);
+    if (element.previousElementSibling.value.trim()) {
+        xmlhttp.open("POST", "index.php?action=newcomment", true);
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === 4) {
+                console.log("ajax done ! readyState = "+ xmlhttp.readyState);
+                var displayComments = element.parentNode.previousElementSibling;
+                var chargeComBtn = element.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.firstElementChild.firstElementChild;
+                var commentNbNode = element.parentNode.parentNode.previousElementSibling.firstElementChild.nextElementSibling.firstElementChild.firstElementChild.nextElementSibling;
+                var commentNb = commentNbNode.textContent;
+                commentNb++;
+                commentNbNode.textContent = commentNb;
+                console.log(commentNb);
+                // console.log(displayComments);
+                while (displayComments.firstChild) {
+                    displayComments.removeChild(displayComments.firstChild);
+                }
+                commentFunction(chargeComBtn);
+                if (xmlhttp.status === 200) {
+                    console.log(xmlhttp.responseText);
+                }
+            } else {
+                console.log("readyState = " + xmlhttp.readyState);
+                console.log("ERROR = " + xmlhttp.status);
             }
-        } else {
-            console.log("readyState = " + xmlhttp.readyState);
-            console.log("ERROR = " + xmlhttp.status);
         }
-    }
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send("comment=" + comment + "&imgId=" + img_id);
-    //remove text from textarea 
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("comment=" + comment + "&imgId=" + img_id);
+}
     element.previousElementSibling.value = "";
 }
 

@@ -64,9 +64,9 @@ function publishManagement($action, $imgId)
     if (isOwner($imgId, $_SESSION["usr_name"])) {
         if ($action == "publish")
         {
-            editData("usr_images", "published", "y", "img_id", $imgId);
+            editData("usr_images", "published", "now()", "img_id", $imgId);
         } else if ($action == "unpublish") {
-            editData("usr_images", "published", "n", "img_id", $imgId);
+            editData("usr_images", "published", "NULL", "img_id", $imgId);
         }
     }
 }

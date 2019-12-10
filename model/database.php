@@ -30,11 +30,12 @@ function accountExists($login, $email)
     return false;
 }
 
-function getValue($db_table, $name, $targetName, $target)
+function getValue($db_table, $name, $targetName, $target, $order = null)
 {
     $db = db_connection();
     $sql = "SELECT `" . $name ."` FROM `" . $db_table . 
-            "` WHERE `" . $targetName . "` = '". $target ."';";
+            "` WHERE `" . $targetName . "` = '". $target ."'
+            ". $order .";";
     $result = $db->query($sql);
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -133,7 +134,7 @@ function editData($table, $column, $newValue, $targetName, $target)
 {
     $db = db_connection();
     $sql = "UPDATE `". $table ."`
-        SET `". $column ."` = '". $newValue . "'
+        SET `". $column ."` = ". $newValue . "
         WHERE `". $targetName ."` = '". $target ."'";
     if (!$affected = $db->exec($sql)) {
         return false;
@@ -195,7 +196,8 @@ function getFeedImgs($limit, $offset)
     $db = db_connection();
     $feedImgs = [];
     $sql = "SELECT * FROM `usr_images`
-            WHERE `published` = 'y'
+            WHERE `published`
+            ORDER BY `published` DESC
             LIMIT ". $limit ."
             OFFSET ". $offset .";";
     $result = $db->query($sql);
@@ -229,7 +231,7 @@ function dbCount($table, $targetName, $value)
 {
     $db = db_connection();
     $sql = "SELECT COUNT(*) AS `total` FROM `". $table ."`
-            WHERE `". $targetName . "` = '". $value ."';";
+            WHERE `". $targetName ."`". $value .";";
     $result = $db->query($sql);
     $fetch = $result->fetchAll(PDO::FETCH_ASSOC);
     return $fetch[0]["total"];

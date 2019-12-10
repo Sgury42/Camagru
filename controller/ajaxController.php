@@ -4,7 +4,7 @@ require_once "model/database.php";
 
 function scrollDown($index)
 {
-    $totalImg = dbCount("usr_images", "published", "y");
+    $totalImg = dbCount("usr_images", "published", "IS NOT NULL");
     $maxPage = ceil($totalImg / IMG_PER_PAGE);
     if ($index > $maxPage) {
         return ;
@@ -78,14 +78,13 @@ function newCommentAction()
         array_push($commentsId, $commentId);
         editData("usr_images", "comments_nb", $commentNb, "img_id", $imgId);
         editData("usr_images", "comments_id", serialize($commentsId), "img_id", $imgId);
-        $ownerId = getValue("usr_img", "usr_id", "img_id", $imgId);
-        $ownerInfo = getValue("users", "login`, `notifications`, `email", "id", $ownerId[0]["usr_id"]);
-        if ($ownerInfo[0]["notifications"] == "y") {
-            echo $ownerInfo;
-            if (notificationEmail($_SESSION["usr_name"], $comment, $ownerInfo[0]["login"], $ownerInfo[0]["email"])) {
-                echo "email have been sent !";
-            }
-        }
+        $ownerId = getValue("usr_images", "usr_id", "img_id", $imgId);
+        $ownerInfo = getValue("users", "*", "id", $ownerId[0]["usr_id"]);
+        // if ($ownerInfo[0]["notifications"] == "y") {
+            // if (notificationEmail($_SESSION["usr_name"], $comment, $ownerInfo[0]["login"], $ownerInfo[0]["email"])) {
+                // echo "email have been sent !";
+            // }
+        // }
     }
 }
 
@@ -93,7 +92,7 @@ function getCommentsAction()
 {
     $imgId = $_GET["imgId"];
     if ($imgId) {
-        $comments = getValue("comments", "*", "img_id", $imgId);
+        $comments = getValue("comments", "*", "img_id", $imgId, "ORDER BY `date` DESC");
         foreach ($comments as &$comment) {
             $getAuthorName = getValue("users", "login", "id", $comment["usr_id"]);
             $comment["author_name"] = $getAuthorName[0]["login"];

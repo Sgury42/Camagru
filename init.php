@@ -28,7 +28,7 @@ $createTables = "
         `likes_id` VARCHAR(255),
         `comments_nb` INT NOT NULL DEFAULT 0,
         `likes_nb` INT NOT NULL DEFAULT 0,
-        `published` ENUM('y', 'n') DEFAULT 'n');
+        `published` DATETIME DEFAULT NOW());
 
     CREATE TABLE `general` (
         `total_img` INT NOT NULL DEFAULT 0,

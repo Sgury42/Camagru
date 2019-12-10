@@ -23,7 +23,9 @@
 </div>
 <?php elseif ($uploadedPicture) : ?>
 <div class="polaBorder">
-    <img class="toCustomize" src=<?php echo "'". $uploadedPicture . "'"?>/>
+    <img id="preview" alt="filterPreview">
+        <img class="toCustomize" src=<?php echo "'". $uploadedPicture . "'"?>/>
+    </img>
 </div>
 <?php elseif ($_GET["action"] == "customPanel" && $_GET["choice"] == "upload") : ?>
 <div id="uploadImage" class="form">
