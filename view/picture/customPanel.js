@@ -41,12 +41,3 @@ function selectFilter(filter)
     filterIn.setAttribute("value", filter["src"]);
 
 }
-
-function showForm(id)
-{
-    document.getElementById(id).style.display = "flex";
-}
-function hideForm(id)
-{
-    document.getElementById(id).style.display = "none";
-}

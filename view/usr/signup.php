@@ -25,5 +25,5 @@
 <script type="text/javascript" src="./view/usr/signup.js"></script>
 <?php
 $content = ob_get_clean();
-require_once "view/home.php";
+require_once "view/home/home.php";
 ?>

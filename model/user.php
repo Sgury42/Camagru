@@ -96,15 +96,70 @@ function firstLog($login, $passwd, $code)
     if (!isVerified($login) && dataExists("users", "login", $login) && checkPasswd($login, $passwd)) {
         $result = getValue("users", "id", "login", $login);
         $id = $result[0]['id'];
-        if (editData("users", "role", "client", "login", $login) && removeData("codes", "usr_id", $id)) {
+        if (editData("users", "role", "'client'", "login", $login) && removeData("codes", "usr_id", $id)) {
             $queryResult = getGeneraldata("total_usr");
             $totalUsr = $queryResult[0]["total_usr"];
             $totalUsr += 1;
             updateGeneral("total_usr", $totalUsr);
             $_SESSION["usr_name"] = $login;
             $_SESSION["role"] = "client";
+            if ($_SESSION["msg"]) {
+                unset($_SESSION["msg"]);
+            }
             return true;
         }
     }
     return false;
+}
+
+function updatePwd($new, $confirmation)
+{
+    $new = trim($new);
+    $confirmation = trim($confirmation);
+    $id = getId($_SESSION["usr_name"]);
+    if ($new != $confirmation) {
+        echo "Oups password don't match !";
+    } else if (strlen($new) > 25) {
+        echo "Oups ! Your password should'nt exceed 25 characters.";
+    } else if (!passwdIsSecure($new)) {
+        echo "Please choose a secure password";
+    } else {
+        removeData("private", "usr_id", $id);
+        addPasswd($id, $new);
+        echo "password is up to date!";
+    }
+}
+
+function updateEmail($newEmail)
+{
+    if (!filter_var($newEmail, FILTER_VALIDATE_EMAIL) || strlen($newEmail) > 80) {
+        echo "Please enter a valid email address.";
+    } else {
+        $newEmail = "'". $newEmail ."'";
+        editData("users", "email", $newEmail, "login", $_SESSION["usr_name"]);
+        echo "email updated successfully !";
+    }
+}
+
+function updateLogin($newLogin)
+{
+    $id = getId($_SESSION["usr_name"]);
+    if (dataExists("users", "login", $newLogin)) {
+        echo "Oups this login is already taken!";
+    } else if (strlen($newLogin) > 15){
+        echo "Please choose a shorter login.";
+    } else {
+        editData("users", "login", "'". $newLogin ."'", "id", $id);
+        $_SESSION["usr_name"] = $newLogin;
+        echo "Hello ". $newLogin . " !";
+    }
+}
+
+function switchNotif($switch)
+{
+    if ($switch == "switchON") {
+        editData("users", "notifications", "'y'", "login", $_SESSION["usr_name"]);
+    } else if ($switch == "switchOFF") {
+        editData("users", "notifications", "'n'", "login", $_SESSION["usr_name"]);
+    }
 }

@@ -54,8 +54,9 @@ function likeAction($action, $imgId)
         $pos = array_search($usrId, $likesId);
         unset($likesId[$pos]);
     }
+    $likesId = serialize($likesId);
     editData("usr_images", "likes_nb", $likesNb, "img_id", $imgId);
-    editData("usr_images", "likes_id", serialize($likesId), "img_id", $imgId);
+    editData("usr_images", "likes_id", "'". $likesId ."'", "img_id", $imgId);
 }
 
 function newCommentAction()
@@ -98,5 +99,20 @@ function getCommentsAction()
             $comment["author_name"] = $getAuthorName[0]["login"];
         }
         echo json_encode($comments);
+    }
+}
+
+function removeMsgAction()
+{
+    unset($_SESSION["msg"]);
+}
+
+function resendEmailAction()
+{
+    $email = $_POST["email"];
+    if (dataExists("users", "email", $email) && dataExists("users", "role", "unverified")) {
+        $login = getValue("users", "login", "email", $email);
+        $login = $login[0]["login"];
+        signinMail($email, $login);
     }
 }

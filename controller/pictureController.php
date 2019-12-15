@@ -76,12 +76,23 @@ function customAction()
             $error_msg = "Oups something went wrong, please try again !";
         }
     }
-    if ($_POST["delete"] == "delete" && $_POST["imgId"]) {
-        deleteImg($_POST["imgId"]);
-    }
-    if ($_POST["publish"] && $_POST["imgId"]) {
-        publishManagement($_POST["publish"], $_POST["imgId"]);
-    }
+    // if ($_POST["delete"] == "delete" && $_POST["imgId"]) {
+    //     deleteImg($_POST["imgId"]);
+    // }
+    // if ($_POST["publish"] && $_POST["imgId"]) {
+    //     publishManagement($_POST["publish"], $_POST["imgId"]);
+    // }
     $pictureBankImgs = getUsrImgs($usr_id);
     require_once "view/picture/pictureContent.php";
+}
+        
+function imgManagementAction()
+{
+    $imgId = $_POST["imgId"];
+    $action = $_POST["action"];
+    if ($action == "delete") {
+        deleteImg($imgId);
+    } else {
+        publishManagement($action, $imgId);
+    }
 }

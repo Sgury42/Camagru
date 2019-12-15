@@ -3,8 +3,6 @@
         <meta charset="UTF-8">
         <title>Camagru</title>
         <link rel="stylesheet" type="text/css" href="webroot/css/base.css?<?php echo time(); ?>"> <!--MUST TAKE OFF THE TIME PART! -->
-        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-
     </head>
     <body>
         <header>
@@ -24,9 +22,9 @@
            </ul>
         </header>
         <div id="main">
-            <?php if (ft_isset($_GET["msg_alert"])) {
+            <?php if (ft_isset($_SESSION["msg"])) {                   //should be changed for js display
                 echo "<div id='alertBox'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
-                <p>". $_GET["msg_alert"] ."</p></div>";
+                <p>". $_SESSION["msg"] ."</p></div>";
                 }?>
             <?php echo $content ?>
         </div>
@@ -34,7 +32,6 @@
             <p>©sgury 2019</p>
             <a href="">contact</a>
         </footer>
-    <script type="text/javascript" src="./view/home.js"></script>
-    <!-- <script type="text/javascript" src="./view/usr/signup.js"></script> -->
+    <script type="text/javascript" src="./view/home/home.js"></script>
     </body>
 </html>

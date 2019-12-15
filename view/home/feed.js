@@ -5,6 +5,7 @@ var index = 0;
 var path = "./private/usrImgs/";
 var tolikeIcon = "./webroot/img/icons/heart_icon.png";
 var likedIcon = "./webroot/img/icons/heart_colored_icon.png";
+var commentIcon = "./webroot/img/icons/comment_icon.png";
 
 function scrollFunction() 
 {
@@ -223,7 +224,7 @@ function displayImgs(imgs)
         var likeBtn = document.createElement("BUTTON");
         likeBtn.setAttribute("type", "button");
         likeBtn.setAttribute("name", "like");
-        likeBtn.setAttribute("onclick", "likeFunction('like', this)");
+        likeBtn.setAttribute("onclick", "checkRights('like', this)");
         if (element["liked"]) {
             likeBtn.setAttribute("value", "unlike");
         } else {
@@ -242,6 +243,49 @@ function displayImgs(imgs)
         likeNb.textContent = element["likes_nb"];
         likeInfos.appendChild(likeNb);
         //add comment form;
+        var commentForm = document.createElement("FORM");
+        imgInfos.appendChild(commentForm);
+        var commentInfos = document.createElement("DIV");
+        commentInfos.setAttribute("class", "infos");
+        commentForm.appendChild(commentInfos);
+        var commentBtn = document.createElement("BUTTON");
+        commentBtn.setAttribute("type", "button");
+        commentBtn.setAttribute("name", "comment");
+        commentBtn.setAttribute("onclick", "checkRights('comment', this)");
+        var comIcon = document.createElement("IMG");
+        comIcon.setAttribute("class", "icon");
+        comIcon.setAttribute("src", commentIcon);
+        commentBtn.appendChild(comIcon);
+        commentInfos.appendChild(commentBtn);
+        var comNb = document.createElement("P");
+        comNb.textContent = element["comments_nb"];
+        commentInfos.appendChild(comNb);
+        var commentBox = document.createElement("DIV");
+        commentBox.setAttribute("id", "commentBox");
+        commentBox.setAttribute("style", "display: none");
+        polaBorder.appendChild(commentBox);
+        var closeDiv = document.createElement("DIV");
+        closeDiv.setAttribute("class", "closeDiv");
+        closeDiv.setAttribute("onclick", "closeDiv(this)");
+        closeDiv.setAttribute("style", "opacity: 100%");
+        commentBox.appendChild(closeDiv);
+        var commentDisplay = document.createElement("DIV");
+        commentDisplay.setAttribute("class", "commentsDisplay");
+        commentBox.appendChild(commentDisplay);
+        var commentForm = document.createElement("DIV");
+        commentForm.setAttribute("class", "commentForm");
+        commentBox.appendChild(commentForm);
+        var textarea = document.createElement("TEXTAREA");
+        textarea.setAttribute("type", "text");
+        textarea.setAttribute("maxlength", "250");
+        textarea.setAttribute("name", "newComment");
+        commentForm.appendChild(textarea);
+        var subBtn = document.createElement("BUTTON");
+        subBtn.setAttribute("type", "button");
+        subBtn.setAttribute("name", "sendComment");
+        subBtn.setAttribute("onclick", "checkRights('newcomment', this)");
+        subBtn.textContent = "Send !";
+        commentForm.appendChild(subBtn);
 
         feed.appendChild(polaBorder);
     });

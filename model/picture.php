@@ -87,8 +87,11 @@ function likedImgs($usrName, $imgs)
         if ($likes) {
             if (in_array($usrId, $likes)) {
                 $img["liked"] = true ;
+            } else {
+                $img["liked"] = false ;
             }
         }
     }
+    // print_r($imgs);
     return $imgs ;
 }

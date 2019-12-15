@@ -12,6 +12,9 @@ function signupAction()
         if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
              $error_msg = "Please enter a valid email address.";
         }
+        else if ($_POST["passwd"] != $_POST["passwd2"]) {
+            $error_msg = "Oups passwords don't match !";
+        }
         else if (!passwdIsSecure($_POST["passwd"])) {
             $error_msg = ("Please choose a secure password.");
         }
@@ -32,7 +35,7 @@ function signupAction()
         }
         else {
             if (signinMail($_POST["email"], $_POST["login"])) {
-                $_SESSION["msg_alert"] = "Your account has been created successfully! <br />
+                $_SESSION["msg"] = "Your account has been created successfully! <br />
                 Please check your mail box to verrify your account. <br />
                 Didn't receive your confirmation email? <button onclick='verifyEmail()'> Click here </button>";
                 header("Location: index.php?action=index");
@@ -48,7 +51,7 @@ function signupAction()
 function loginAction() 
 {
     if (ft_isset($_SESSION["usr_name"])) {
-        header("Location: index.php?action=index");             //add msg to display?
+        header("Location: index.php?action=index");
     }
     else if (ft_isset($_POST["login"]) && ft_isset($_POST["passwd"])) {
         if (logRequest($_POST["login"], $_POST["passwd"])) {
@@ -81,8 +84,37 @@ function verifyAction()
 
 function logoutAction()
 {
-    unset($_SESSION["usr_name"]);
-    unset($_SESSION["role"]);
-    array_map('unlink', glob("tmp/uploads/*"));
+    // unset($_SESSION["usr_name"]);
+    // unset($_SESSION["role"]);
+    session_unset();
+    // array_map('unlink', glob("tmp/uploads/*"));
     header("Location: index.php?action=index");
+}
+
+function usrPanelAction()
+{
+    $usr_id = getId($_SESSION["usr_name"]);
+    if (ft_isset($_POST["submit"] == "DELETE ACCOUNT")
+    && checkPasswd($_SESSION["usr_name"], $_POST["pwdDelAccount"])) {
+        removeUsr($_SESSION["usr_name"]); //SHOULD I REMOVE COMMENTS TOO?
+        logoutAction();
+    }
+    if (ft_isset($_POST["notifications"])) {
+        switchNotif($_POST["notifications"]);
+    }
+    $queryNotifOn = getValue("users", "notifications", "login", $_SESSION["usr_name"]);
+    $notifOn = $queryNotifOn[0]["notifications"];
+    $pictureBankImgs = getUsrImgs($usr_id);
+    require "view/usr/panel.php";
+}
+
+function usrUpdateAction()
+{
+    if ($_POST["newPwd"]) {
+        updatePwd($_POST["newPwd"], $_POST["confirmationPwd"]);
+    } else if ($_POST["newEmail"]) {
+        updateEmail($_POST["newEmail"]);
+    } else if ($_POST["newLogin"]) {
+        updateLogin($_POST["newLogin"]);
+    }
 }

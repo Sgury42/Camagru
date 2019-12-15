@@ -115,7 +115,7 @@ function newUsr($login, $role, $email, $passwd)
 
 function removeUsr($login)
 {
-    $db = db_connection();
+    $db = db_connection(); //SHOULD REMOVE PICTURES OWNED BY USR !!!
     $result = getValue("users", "id", "login", $login);
     $id = $result[0]["id"];
     $sql = "DELETE FROM `users`
@@ -135,7 +135,7 @@ function editData($table, $column, $newValue, $targetName, $target)
     $db = db_connection();
     $sql = "UPDATE `". $table ."`
         SET `". $column ."` = ". $newValue . "
-        WHERE `". $targetName ."` = '". $target ."'";
+        WHERE `". $targetName ."` = '". $target ."';";
     if (!$affected = $db->exec($sql)) {
         return false;
     }

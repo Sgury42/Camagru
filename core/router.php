@@ -14,8 +14,13 @@ function usrRouter()
         case "logout":
             logoutAction();
             break ;
+        case "usrPanel":
+            usrPanelAction();
+            break ;
+        case "usrUpdate":
+            usrUpdateAction();
+            break ;
     }
-    // homeAction();
 }
 
 function pictureRouter()
@@ -32,6 +37,9 @@ function pictureRouter()
         //     break ;
         case "customPanel":
             customAction();
+            break ;
+        case "imgManagement":
+            imgManagementAction();
             break ;
     }
 }
@@ -53,6 +61,12 @@ function ajaxRouter()
             break ;
         case "getComments":
             getCommentsAction();
+            break ;
+        case "removeMsg":
+            removeMsgAction();
+            break ;
+        case "verifyEmail":
+            resendEmailAction();
             break ;
 
     }

@@ -11,10 +11,10 @@
                     } else {
                         echo "like";
                     } ?> >
-                        <img class="icon" src=<?php if ($img["likes_nb"] == 0) {
-                        echo LIKES_ICON_B;
-                    } else {
+                        <img class="icon" src=<?php if ($img["liked"]) {
                         echo LIKES_ICON_C;
+                    } else {
+                        echo LIKES_ICON_B;
                     } ?> /></button>
                     <p><?php echo $img["likes_nb"] ?></p>
                 </div>
@@ -41,5 +41,5 @@
 <script type="text/javascript" src="./view/home/feed.js"></script>
 <?php
 $content = ob_get_clean();
-require_once "view/home.php";
+require_once "view/home/home.php";
 ?>
