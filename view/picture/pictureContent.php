@@ -24,18 +24,18 @@
 <?php elseif ($uploadedPicture) : ?>
 <div class="polaBorder">
     <img id="preview" alt="filterPreview">
-        <img class="toCustomize" src=<?php echo "'". $uploadedPicture . "'"?>/>
+        <canvas class="toCustomize" src=<?php echo "'". $uploadedPicture . "'"?>></canvas>
     </img>
 </div>
 <?php elseif ($_GET["action"] == "customPanel" && $_GET["choice"] == "upload") : ?>
 <div id="uploadImage" class="form">
-    <form enctype="multipart/form-data" method="POST">
+    <form id="fileUpload" enctype="multipart/form-data">
         <?php if (ft_isset($error_msg)) {
             echo $error_msg ;
         } ?>
         <p>Choose a picture to upload:</p>
-        <input name="usr_picture" type="file" />
-        <button id="uploadBtn" type="submit" name="upload" value="upload">Let's cusomize it !</button>
+        <input id="usr_file" name="usrPicture" type="file" accept="image/jpeg, image/png"/>
+        <button id="uploadBtn" type="submit" name="upload" value="upload" >Let's cusomize it !</button>
     </form>
 </div>
 <?php endif ; ?>

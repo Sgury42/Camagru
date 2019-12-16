@@ -14,10 +14,10 @@ if (preview) {
     preview.style.display = "none";
 }
 
-if (document.getElementById("uploadBtn")) {
-    var btn = document.getElementById("uploadBtn");
-    btn.disabled = true;
-}
+// if (document.getElementById("uploadBtn")) {
+//     var btn = document.getElementById("uploadBtn");
+//     btn.disabled = true;
+// }
 else if (document.getElementById("shootBtn")) {
     var btn = document.getElementById("shootBtn");
     btn.disabled = true;
@@ -25,6 +25,7 @@ else if (document.getElementById("shootBtn")) {
 
 function selectFilter(filter)
 {
+    console.log(preview);
     if (!filterSelected) {
         filter.style.border = "5px solid white";
     }

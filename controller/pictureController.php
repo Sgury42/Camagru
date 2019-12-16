@@ -34,8 +34,8 @@ function checkCustomAccess()
 
 function checkFile()
 {
-    $allowed_ext = array("jpg", "jpeg", "png", "gif");
-    $file_name = $_FILES["usr_picture"]["name"];
+    $allowed_ext = array("jpg", "jpeg", "png");
+    $file_name = $_FILES["usrPicture"]["name"];
     $file_ext = strtolower(end(explode(".", $file_name)));
     $error_msg = "";
 
@@ -56,12 +56,6 @@ function customAction()
 {
     checkCustomAccess();
     $usr_id = getId($_SESSION["usr_name"]);
-    if ($_POST["upload"] == "upload" && ft_isset($_FILES["usr_picture"])) {
-        if ($error_msg = checkFile()) {
-            require_once "view/picture/pictureContent.php";
-        }
-        $uploadedPicture = processUploadToB64($_FILES["usr_picture"]);
-    }
     if ($_POST["save"] == "save" && $_POST["filter"] && $_POST["usrShoot"]) {
         if (ispng($_POST["filter"]) && ispng($_POST["usrShoot"])) {
             $imgId = applyAndSave($_POST["filter"], $_POST["usrShoot"]);
@@ -94,5 +88,17 @@ function imgManagementAction()
         deleteImg($imgId);
     } else {
         publishManagement($action, $imgId);
+    }
+}
+
+function fileUploadAction()
+{
+    if (!ft_isset($_SESSION["usr_name"])) {
+        echo json_encode(array ("error" => "You must be log in to do this action"));
+    } else if ($error_msg = checkFile()) {
+        echo json_encode( array( "error" => $error_msg));
+    } else {
+        $uploadedPicture = processUploadToB64($_FILES["usrPicture"]);
+        echo json_encode( array("usrImg" => $uploadedPicture));
     }
 }

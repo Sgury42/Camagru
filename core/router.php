@@ -35,6 +35,9 @@ function pictureRouter()
         // case "upload":
         //     uploadAction();
         //     break ;
+        case "fileUpload":
+            fileUploadAction();
+            break;
         case "customPanel":
             customAction();
             break ;
