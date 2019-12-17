@@ -2,7 +2,7 @@
 <div id="customPanel">
     <div id="customBox">
         <div id="pictureBox"><?php echo $pictureContent ?></div>
-        <?php if ($_GET["choice"] != "toMake") : ?>
+        <?php if ($_GET["choice"] != "toMake" && $_GET["choice"] != "upload") : ?>
         <div id="customOptions">
             <div id="filterBox">
                     <?php $files = glob("webroot/img/filters/*.png", GLOB_BRACE);

@@ -18,9 +18,12 @@ if (preview) {
 //     var btn = document.getElementById("uploadBtn");
 //     btn.disabled = true;
 // }
-else if (document.getElementById("shootBtn")) {
+if (document.getElementById("shootBtn")) {
     var btn = document.getElementById("shootBtn");
     btn.disabled = true;
+}
+if (document.getElementById("usrPicture")) {
+    var usrPicture = document.getElementById("usrPicture");
 }
 
 function selectFilter(filter)
@@ -34,7 +37,22 @@ function selectFilter(filter)
         filter.style.border = "5px solid white";
     }
     filterSelected = filter;
-    btn.disabled = false;
+    if (btn) {
+        btn.disabled = false;
+    }
+    if (usrPicture) {
+        preview.style.width = usrPicture.offsetWidth;
+        preview.style.height = usrPicture.offsetHeight;
+        var polaBorder = document.getElementById("videoBox");
+        var marginSides = (polaBorder.offsetWidth - usrPicture.offsetWidth) / 2;
+        preview.style.margin = "30px "+ marginSides +"px";
+    }
+    if (saveBtn.disabled == true && usrPicture) {
+        saveBtn.disabled = false;
+        var dataToSend = document.getElementById("usrShootIn");
+        var base64 = usrPicture.src;
+        dataToSend.setAttribute("value", base64);
+    }
     // btn.setAttribute("data-value", filter);
     preview.setAttribute("src", filter["src"]);
     preview.style.display = "block";

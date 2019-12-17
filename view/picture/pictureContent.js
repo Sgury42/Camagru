@@ -6,7 +6,7 @@ navigator.getUserMedia = navigator.getUserMedia
 window.URL = window.URL
     || window.webkitURL;
 
-var canvas, video;
+// var canvas, video;
 
 function activeCam() {
 
@@ -42,8 +42,8 @@ function takePicture() {
 
     var myCanvas = document.createElement("CANVAS");
     myCanvas.setAttribute("class", "toCustomize");
-    myCanvas.setAttribute("width", 500)
-    myCanvas.setAttribute("height", 375)
+    myCanvas.setAttribute("width", 500);
+    myCanvas.setAttribute("height", 375);
 
     var form = document.createElement("FORM");
     form.setAttribute("method", "POST");
@@ -93,11 +93,13 @@ function takePicture() {
     // document.getElementById('img_form').style.display = 'none';
 }
 
+/*
 window.addEventListener("load", function() {
     function sendFile(element) {
         var xmlhttp = new XMLHttpRequest();
         var FD = new FormData(element);
         xmlhttp.addEventListener("load", function() {
+            // console.log(JSON.parse(xmlhttp.responseText));
             var responseArray = JSON.parse(xmlhttp.responseText);
             if (responseArray["error"]) {
                 alert(responseArray["error"])
@@ -129,18 +131,28 @@ window.addEventListener("load", function() {
             sendFile(event.target);
         });
     }
-});
-
+}); */
+/*
 function displayUsrImg(usrImg)
 {
-    console.log(usrImg);
+    var polaBorder = document.createElement("DIV");
+    polaBorder.setAttribute("class", "polaBorder");
+    polaBorder.setAttribute("id", "videoBox");
+    var pictureBox = document.getElementById("pictureBox");
+    pictureBox.appendChild(polaBorder);
+    var previewFilter = document.createElement("IMG");
+    previewFilter.setAttribute("id", "preview");
+    previewFilter.setAttribute("alt", "filterPreview");
+    previewFilter.setAttribute("style", "display: none");
+    polaBorder.appendChild(previewFilter);
     var myCanvas = document.createElement("CANVAS");
     myCanvas.setAttribute("class", "toCustomize");
-    myCanvas.setAttribute("width", 500)
-    myCanvas.setAttribute("height", 375)
+    myCanvas.setAttribute("width", 500);
+    myCanvas.setAttribute("height", 375);
 
-    var form = document.createElement("FORM");
-    form.setAttribute("method", "POST");
+
+    // var form = document.createElement("FORM");
+    // form.setAttribute("method", "POST");
 
     // var newShootBtn = document.createElement("BUTTON");
     // newShootBtn.setAttribute("class", "myBtn");
@@ -148,33 +160,39 @@ function displayUsrImg(usrImg)
     // newShootBtn.setAttribute("name", "newShoot");
     // newShootBtn.innerHTML = "Take a new picture !";
 
-    var btnBorder = document.createElement("DIV");
-    btnBorder.setAttribute("class", "gradientBorder");
+    // var btnBorder = document.createElement("DIV");
+    // btnBorder.setAttribute("class", "gradientBorder");
 
     var ctx = myCanvas.getContext('2d');
     var image = new Image();
     image.src = usrImg;
+    console.log(image.src);
     ctx.drawImage(image, 0, 0, myCanvas.width, myCanvas.height);
     // imageDataURL = myCanvas.toDataURL("image/png");
+    polaBorder.appendChild(myCanvas);
+
+    var uploadForm = document.getElementById("uploadImage");
+    uploadForm.remove();
+
 
     // document.getElementById("shootBtn").setAttribute("value", imageDataURL);
     // btnBorder.appendChild(newShootBtn);
-    form.appendChild(btnBorder);
-    document.getElementById("videoBox").appendChild(myCanvas);
-    document.getElementById("pictureBox").appendChild(form);
+    // form.appendChild(btnBorder);
+    // document.getElementById("videoBox").appendChild(myCanvas);
+    // document.getElementById("pictureBox").appendChild(form);
     // document.getElementById("videoBox").appendChild(form);
     // document.getElementById("videoBox").appendChild(frame);
 
 
-    var videoDisplay = document.getElementById("video");
-    videoDisplay.parentElement.removeChild(videoDisplay);
+    // var videoDisplay = document.getElementById("video");
+    // videoDisplay.parentElement.removeChild(videoDisplay);
 
-    var takePictureBtn = document.getElementById("takePictureBtn");
-    takePictureBtn.parentElement.removeChild(takePictureBtn);
+    // var takePictureBtn = document.getElementById("takePictureBtn");
+    // takePictureBtn.parentElement.removeChild(takePictureBtn);
 
-    var saveBtn = document.getElementById("saveBtn");
-    saveBtn.disabled = false;
-    var usrShootIn = document.getElementById("usrShootIn");
-    usrShootIn.setAttribute("value", imageDataURL);
+    // var saveBtn = document.getElementById("saveBtn");
+    // saveBtn.disabled = false;
+    // var usrShootIn = document.getElementById("usrShootIn");
+    // usrShootIn.setAttribute("value", imageDataURL);
 
-}
+} */

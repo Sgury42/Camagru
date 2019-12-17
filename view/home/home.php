@@ -30,7 +30,7 @@
         </div>
         <footer>
             <p>©sgury 2019</p>
-            <a href="">contact</a>
+            <a href="https://www.linkedin.com/in/sandra-gury-083635146/" target="_blank">contact</a>
         </footer>
     <script type="text/javascript" src="./view/home/home.js"></script>
     </body>
