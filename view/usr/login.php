@@ -12,7 +12,8 @@
         <input type="text" name="login" required><br />
         <p>Password:</p>
         <input type="password" name="passwd" required><br />
-        <button type="submit" value="submit">Log In !</button>
+        <button type="submit" value="submit">Log In !</button><br />
+        <a onclick="tmpPasswd()" style="text-decoration: underline; cursor: pointer">Forgot Password ?</a>
     </form>
 </div>
 <?php

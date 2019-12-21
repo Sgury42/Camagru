@@ -43,10 +43,18 @@ function getValue($db_table, $name, $targetName, $target, $order = null)
 function addPasswd($id, $passwd)
 {
     $db = db_connection();
-    $sql = "INSERT INTO `private` (`usr_id`, `pwd`)
-        VALUES ('" . $id . "', AES_ENCRYPT('" . $passwd . "', 'secret'));";
-    if (!$affected = $db->exec($sql)) {
-        return false;
+    $stmt = $db->prepare("INSERT INTO `private` (`usr_id`, `pwd`)
+        VALUES (?, AES_ENCRYPT( ?, 'secret'));");
+    $params = array($id, $passwd);
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+        return false ;
+    } finally {
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
     }
     return true;
 }
@@ -55,12 +63,18 @@ function addCode($id, $usage)
 {
     $db = db_connection();
     $code = random_code(10);
-    echo "code = " . $code;
-    $sql = "INSERT INTO `codes` (`usr_id`, `usage`, `code`)
-        VALUE ('". $id ."', '". $usage . "', 
-        AES_ENCRYPT('". $code . "', 'uniquecodeforsafety'));";
-    if (!$affected = $db->exec($sql)) {
+    $stmt = $db->prepare("INSERT INTO `codes` (`usr_id`, `usage`, `code`)
+        VALUE (?, ?, AES_ENCRYPT( ?, 'uniquecodeforsafety'));");
+    $params = array($id, $usage, $code);
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
         return false;
+    } finally {
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
     }
     return true;
 }
@@ -97,10 +111,18 @@ function getCode($id) {
 function newUsr($login, $role, $email, $passwd)
 {
     $db = db_connection();
-    $addusr = "INSERT INTO `users` (`login`, `role`, `email`, `creation_date`)
-            VALUES ('" . $login . "', '" . $role . "', '" . $email . "', date(now()));";
-    if (!$affected = $db->exec($addusr)) {
-        return false;
+    $stmt = $db->prepare("INSERT INTO `users` (`login`, `role`, `email`, `creation_date`)
+            VALUES (?, ?, ?, date(now()));");
+    $params = array($login, $role, $email);
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+        return false ;
+    } finally {
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
     }
     $newId = getValue("users", "id", "login", $login);
     $newId = $newId[0]['id'];
@@ -133,11 +155,26 @@ function removeUsr($login)
 function editData($table, $column, $newValue, $targetName, $target)
 {
     $db = db_connection();
-    $sql = "UPDATE `". $table ."`
-        SET `". $column ."` = ". $newValue . "
-        WHERE `". $targetName ."` = '". $target ."';";
-    if (!$affected = $db->exec($sql)) {
-        return false;
+    if ($newValue === "now()" || $newValue === "NULL") {
+        $stmt = $db->prepare("UPDATE `". $table ."`
+            SET `". $column ."` = ". $newValue ."
+            WHERE `". $targetName ."` = ?;");
+        $params = array($target);
+    } else {
+        $stmt = $db->prepare("UPDATE `". $table ."`
+            SET `". $column ."` = ?
+            WHERE `". $targetName ."` = ?;");
+        $params = array($newValue, $target);
+    }
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+        return false ;
+    } finally {
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
     }
     return true;
 }
@@ -156,11 +193,18 @@ function removeData($table, $selector, $value)
 function imgToDb($path, $imgId, $usrId)
 {
     $db = db_connection();
-    // $base64 = pngToB64($path, $imgId);
-    $sql = "INSERT INTO `usr_images` (`usr_id`, `img_id`)
-            VALUES ('". $usrId ."', '". $imgId ."');";
-    if (!$affected = $db->exec($sql)) {
+    $stmt = $db->prepare("INSERT INTO `usr_images` (`usr_id`, `img_id`)
+            VALUES (?, ?);");
+    $params = array($usrId, $imgId);
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
         return false ;
+    } finally {
+        if ($stmt !== null) {
+            $stmt->closeCursor();
+        }
     }
     return true ;
 }
@@ -219,12 +263,20 @@ function getGeneralData($toSelect) {
 function updateGeneral($column, $newValue)
 {
     $db = db_connection();
-    $sql = "UPDATE `general`
-            SET ". $column ." = ". $newValue .";";
-    if (!$affected = $db->exec($sql)) {
-        return false;
+    $stmt = $db->prepare("UPDATE `general`
+            SET `". $column ."` = ?;");
+    $params = array($newValue);
+    try {
+        $stmt->execute($params);
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+        return false ;
+    } finally {
+        if ($stmt) {
+            $stmt->closeCursor();
+        }
     }
-    return true;
+    return true ;
 }
 
 function dbCount($table, $targetName, $value)

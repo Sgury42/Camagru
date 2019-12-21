@@ -43,7 +43,7 @@ $createTables = "
         `img_id` INT NOT NULL,
         `text` VARCHAR(255) NOT NULL,
         `date` DATETIME NOT NULL);
-    );";
+    ";
 
 if (!$affected = $db->exec($createTables)) {
     echo "oups something went wrong !";

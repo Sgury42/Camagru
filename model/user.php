@@ -149,17 +149,18 @@ function updateLogin($newLogin)
     } else if (strlen($newLogin) > 15){
         echo "Please choose a shorter login.";
     } else {
-        editData("users", "login", "'". $newLogin ."'", "id", $id);
-        $_SESSION["usr_name"] = $newLogin;
-        echo "Hello ". $newLogin . " !";
+        if (editData("users", "login", $newLogin, "id", $id)) {
+            $_SESSION["usr_name"] = $newLogin;
+            echo "Hello ". $newLogin . " !";
+        }
     }
 }
 
 function switchNotif($switch)
 {
     if ($switch == "switchON") {
-        editData("users", "notifications", "'y'", "login", $_SESSION["usr_name"]);
+        editData("users", "notifications", "y", "login", $_SESSION["usr_name"]);
     } else if ($switch == "switchOFF") {
-        editData("users", "notifications", "'n'", "login", $_SESSION["usr_name"]);
+        editData("users", "notifications", "n", "login", $_SESSION["usr_name"]);
     }
 }

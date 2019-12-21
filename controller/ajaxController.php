@@ -110,9 +110,12 @@ function removeMsgAction()
 function resendEmailAction()
 {
     $email = $_POST["email"];
-    if (dataExists("users", "email", $email) && dataExists("users", "role", "unverified")) {
-        $login = getValue("users", "login", "email", $email);
-        $login = $login[0]["login"];
-        signinMail($email, $login);
+    if (dataExists("users", "email", $email)) {
+        $query = getValue("users", "role", "email", $email);
+        if ($query[0]["role"] === "unverified") {
+            $login = getValue("users", "login", "email", $email);
+            $login = $login[0]["login"];
+            signinMail($email, $login);
+        }
     }
 }
