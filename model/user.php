@@ -69,6 +69,27 @@ function notificationEmail($fromUsrName, $value, $login, $to_email)
     }
 }
 
+function tmpPasswdEmail($login, $email, $passwd)
+{
+    $subject = "Password forgotten? No problem !";
+    $message = "
+    <html>
+        <body>
+            <p>Hi ". $login ." !</p>
+            <p>Sorry you forgot your password, here is a new one: <span style='font-weight: bold;'>". $passwd ."</span>
+            <p>You can update it once you log in.</p>
+            <a href='http://localhost:8080/camagru/index.php?action=login' style='font-weight: bold;'>--->Log In to Camagru !<---</a>
+        </body>
+    </html>
+    ";
+    $header = "Content-type: text/html; charset='UTF-8'";
+    if (mail($email, $subject, $message, $header)) {
+        return true ;
+    } else {
+        return false ;
+    }
+}
+
 function isVerified($login)
 {
     $result = getValue("users", "role", "login", $login);

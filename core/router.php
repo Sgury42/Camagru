@@ -20,6 +20,9 @@ function usrRouter()
         case "usrUpdate":
             usrUpdateAction();
             break ;
+        case "tmpPasswd":
+            tmpPasswdAction();
+            break ;
     }
 }
 

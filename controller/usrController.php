@@ -118,3 +118,38 @@ function usrUpdateAction()
         updateLogin($_POST["newLogin"]);
     }
 }
+
+function tmpPasswdAction()
+{
+    $email = $_POST["email"];
+    if (dataExists("users", "email", $email)) {
+        $queryId = getValue("users", "id", "email", $email);
+        $id = $queryId[0]["id"];
+        $queryLogin = getValue("users", "login", "id", $id);
+        $login = $queryLogin[0]["login"];
+        if (!isVerified($login)) {
+            if (signinMail($email, $login)) {
+                echo "Please check your e-mails !";
+                exit ;
+            } else {
+                echo "Oups something went wrong !";
+                exit ;
+            }
+        } else {
+            $newPwd = random_code(10);
+            removeData("private", "usr_id", $id);
+            addPasswd($id, $newPwd);
+            if (tmpPasswdEmail($login, $email, $newPwd)) {
+                echo "Please check your e-mails !";
+                exit ;
+            } else {
+                echo "Oups something went wrong !";
+                exit ;
+            }
+        }
+    } else {
+        echo "We didn't find any account using this email !
+        Please try to create an account !";
+        exit ;
+    }
+}

@@ -15,6 +15,7 @@
         <button type="submit" value="submit">Log In !</button><br />
         <a onclick="tmpPasswd()" style="text-decoration: underline; cursor: pointer">Forgot Password ?</a>
     </form>
+    <script type="text/javascript" src="./view/usr/login.js"></script>
 </div>
 <?php
 $content = ob_get_clean();
