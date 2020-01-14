@@ -81,9 +81,9 @@ function newCommentAction()
         editData("usr_images", "comments_id", serialize($commentsId), "img_id", $imgId);
         $ownerId = getValue("usr_images", "usr_id", "img_id", $imgId);
         $ownerInfo = getValue("users", "*", "id", $ownerId[0]["usr_id"]);
-        if ($ownerInfo[0]["notifications"] == "y") {
+        if ($ownerInfo[0]["notifications"] == "y" && $ownerId !== $usrId) {
             if (notificationEmail($_SESSION["usr_name"], $comment, $ownerInfo[0]["login"], $ownerInfo[0]["email"])) {
-                echo "email have been sent !";
+                // echo "email have been sent !";
             }
         }
     }

@@ -10,7 +10,7 @@
                 <li class="CamagruTitle"><a href="index.php?action=index">Camagru</a></li>
                 <?php if ($_SESSION["usr_name"]) : ?>
                 <li class="navOption"><a href="index.php?action=usrPanel">My Account</a></li>
-                <li class="navOption"><a href="index.php?action=logout">Logout</a></li>                 <!--find a way to logout usr without reload page if on home page? -->
+                <li class="navOption"><a href="index.php?action=logout">Logout</a></li>
                 <?php else : ?>
                 <li class="navOption"><a href="index.php?action=login">Log in</a></li>
                 <li class="navOption"><a href="index.php?action=signup">Sign up</a></li>
@@ -18,13 +18,17 @@
                 <?php if ($_SESSION['role'] == 'admin') : ?>
                 <li class="navOption"><a href="index.php?action=admin">Admin</a></li>
                 <?php endif; ?>
-                <li class="funButton"><a href="index.php?action=customPanel&choice=toMake">Let's have fun !</a></li> <!--Use Js to click and check if user is log else send usr to sign in with a special msg-->
+                <li class="funButton"><a href="index.php?action=customPanel&choice=toMake">Let's have fun !</a></li>
            </ul>
         </header>
         <div id="main">
-            <?php if (ft_isset($_SESSION["msg"])) {                   //should be changed for js display
+            <?php if (ft_isset($_SESSION["msg"])) {
                 echo "<div id='alertBox'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
                 <p>". $_SESSION["msg"] ."</p></div>";
+                }?>
+            <?php if (ft_isset($_GET["msg_alert"])) {
+                echo "<div id='alertBox'><div class='closeDiv' onclick=\"closeAlert('alertBox')\"></div>
+                <p>". $_GET["msg_alert"] ."</p></div>";
                 }?>
             <?php echo $content ?>
         </div>

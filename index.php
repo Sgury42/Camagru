@@ -5,6 +5,7 @@ session_start();
 
 require_once "core/defines.php";
 require_once "core/pdo_connect.php";
+require_once "config/setup.php";
 require_once "core/router.php";
 require_once "model/global.php";
 require_once "controller/homeController.php";
@@ -12,12 +13,17 @@ require_once "controller/usrController.php";
 require_once "controller/pictureController.php";
 require_once "controller/ajaxController.php";
 
+
+// db_connection();
+
 // print_r($_SESSION);
 // print_r($_POST);
 // print_r($_GET);
 
 if ($_GET['action']) {
-    if ($_GET['action'] == 'index') {
+    if ($_GET['action'] == 'setup') {
+      setupAction();
+    } else if ($_GET['action'] == 'index') {
         homeAction();
     }
     else {
