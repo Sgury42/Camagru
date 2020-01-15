@@ -137,7 +137,7 @@ function newUsr($login, $role, $email, $passwd)
 
 function removeUsr($login)
 {
-    $db = db_connection(); //SHOULD REMOVE PICTURES OWNED BY USR !!!
+    $db = db_connection();
     $result = getValue("users", "id", "login", $login);
     $id = $result[0]["id"];
     $sql = "DELETE FROM `users`
@@ -160,6 +160,16 @@ function editData($table, $column, $newValue, $targetName, $target)
             SET `". $column ."` = ". $newValue ."
             WHERE `". $targetName ."` = ?;");
         $params = array($target);
+    } else if ($column === "role") {
+      if (!strcmp($newValue, "client") || !strcmp($newValue, "admin") ||
+        !strcmp($newValue, "unverified")) {
+        return false ;
+      } else {
+        $stmt = $db->prepare("UPDATE `". $table ."`
+            SET `". $column ."` = ". $newValue ."
+            WHERE `". $targetName ."` = ?;");
+        $params = array($target);
+      }
     } else {
         $stmt = $db->prepare("UPDATE `". $table ."`
             SET `". $column ."` = ?
@@ -172,7 +182,7 @@ function editData($table, $column, $newValue, $targetName, $target)
         $error = $e->getMessage();
         return false ;
     } finally {
-        if ($stmt) {
+      if ($stmt) {
             $stmt->closeCursor();
         }
     }

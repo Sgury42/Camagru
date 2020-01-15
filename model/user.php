@@ -118,7 +118,7 @@ function firstLog($login, $passwd, $code)
         $result = getValue("users", "id", "login", $login);
         $id = $result[0]['id'];
         if (editData("users", "role", "'client'", "login", $login) && removeData("codes", "usr_id", $id)) {
-            $queryResult = getGeneraldata("total_usr");
+          $queryResult = getGeneraldata("total_usr");
             $totalUsr = $queryResult[0]["total_usr"];
             $totalUsr += 1;
             updateGeneral("total_usr", $totalUsr);
@@ -184,4 +184,12 @@ function switchNotif($switch)
     } else if ($switch == "switchOFF") {
         editData("users", "notifications", "n", "login", $_SESSION["usr_name"]);
     }
+}
+
+function removeUsrPictures($login) {
+  $usrId = getId($login);
+  $usrImgs = getUsrImgs($usrId);
+  foreach($usrImgs as $img) {
+    deleteImg($img["img_id"]);
+  }
 }

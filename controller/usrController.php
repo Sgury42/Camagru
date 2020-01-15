@@ -55,7 +55,7 @@ function loginAction()
     }
     else if (ft_isset($_POST["login"]) && ft_isset($_POST["passwd"])) {
         if (logRequest($_POST["login"], $_POST["passwd"])) {
-            header("Location: index.php?action=index");         //display msg??
+            header("Location: index.php?action=index");
         }
         else {
             $error_msg = "Oups try again !";
@@ -84,10 +84,7 @@ function verifyAction()
 
 function logoutAction()
 {
-    // unset($_SESSION["usr_name"]);
-    // unset($_SESSION["role"]);
     session_unset();
-    // array_map('unlink', glob("tmp/uploads/*"));
     header("Location: index.php?action=index");
 }
 
@@ -96,7 +93,8 @@ function usrPanelAction()
     $usr_id = getId($_SESSION["usr_name"]);
     if (ft_isset($_POST["submit"] == "DELETE ACCOUNT")
     && checkPasswd($_SESSION["usr_name"], $_POST["pwdDelAccount"])) {
-        removeUsr($_SESSION["usr_name"]); //SHOULD I REMOVE COMMENTS TOO?
+        removeUsrPictures($_SESSION["usr_name"]);
+        removeUsr($_SESSION["usr_name"]);
         logoutAction();
     }
     if (ft_isset($_POST["notifications"])) {

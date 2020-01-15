@@ -1,25 +1,11 @@
 <?php
 function processUploadToB64()
 {
-    // $file_tmp = $fileInfo["tmp_name"];
-    // $type = pathinfo($fileInfo["name"], PATHINFO_EXTENSION);
     $data = file_get_contents("./private/tmp/tmp.png");
-
     $base64 = "data:image/". $type .";base64,". base64_encode($data);
 
     return $base64;
 }
-
-// function convertToPng($usrPicture) {
-//     file_put_contents("./private/tmp/png.png", base64_decode($usrPicture));
-//     $data = file_get_contents($file_tmp);
-//     $base64 = "data:image/png;base64,". base64_encode($data);
-//     if (ispng($base64)) {
-//         echo "It worked !";
-//     } else {
-//         echo "it didn't work...";
-//     }
-// }
 
 function checkImgSize($usrShoot) {
     list($width, $height) = getimagesize($usrShoot);
@@ -88,6 +74,7 @@ function isOwner($imgId, $usr_name)
 function deleteImg($imgId)
 {
     if (isOwner($imgId, $_SESSION["usr_name"])) {
+        removeData("comments", "img_id", $imgId);
         unlink(USR_IMG_FOLDER.$imgId.".png");
         removeData("usr_images", "img_id", $imgId);
         $totalImg = getGeneralData("total_img");
@@ -95,7 +82,6 @@ function deleteImg($imgId)
         if ($totalImg >= 0) {
             updateGeneral("total_img", $totalImg);
         }
-        //remove comments in comments tab
     }
 }
 
@@ -111,27 +97,21 @@ function publishManagement($action, $imgId)
     }
 }
 
-// function pngToB64($folderPath, $imgId)
-// {
-//     $path = $folderPath . $imgId . ".png";
-//     $data = file_get_contents($path);
-//     $base64 = "data:image/png;base64,". base64_encode($data);
-//     return $base64;
-// }
-
 function likedImgs($usrName, $imgs)
 {
     $usrId = getId($usrName);
     foreach ($imgs as &$img) {
         $likes = unserialize($img["likes_id"]);
+        // print_r(unserialize($img["likes_id"]));
         if ($likes) {
-            if (in_array($usrId, $likes)) {
-                $img["liked"] = true ;
-            } else {
-                $img["liked"] = false ;
+          if (in_array($usrId, $likes)) {
+                $img["liked"] = "true";
+          } else {
+              $img["liked"] = "false";
             }
         }
     }
     // print_r($imgs);
+    // exit;
     return $imgs ;
 }

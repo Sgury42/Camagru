@@ -23,14 +23,6 @@ function checkUsrRights($action)
     } else {
         echo 1;
     }
-    // if (!ft_isset($_SESSION["usr_name"]) && $action == "like" ) {
-        // echo 0;
-    // }
-    // else if (!ft_isset($_SESSION["usr_name"]) && $action == "comment") {
-        // echo 0;
-    // } else {
-        // echo 1;
-    // }
 }
 
 function likeAction($action, $imgId)
@@ -83,7 +75,7 @@ function newCommentAction()
         $ownerInfo = getValue("users", "*", "id", $ownerId[0]["usr_id"]);
         if ($ownerInfo[0]["notifications"] == "y" && $ownerId !== $usrId) {
             if (notificationEmail($_SESSION["usr_name"], $comment, $ownerInfo[0]["login"], $ownerInfo[0]["email"])) {
-                // echo "email have been sent !";
+                echo "email has been sent !";
             }
         }
     }

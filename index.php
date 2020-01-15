@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// ini_set('display_errors', 1);
+ini_set('display_err/ors', 1);
 
 require_once "core/defines.php";
 require_once "core/pdo_connect.php";
@@ -14,12 +14,9 @@ require_once "controller/pictureController.php";
 require_once "controller/ajaxController.php";
 
 
-// db_connection();
-
 // print_r($_SESSION);
 // print_r($_POST);
 // print_r($_GET);
-
 if ($_GET['action']) {
     if ($_GET['action'] == 'setup') {
       setupAction();
