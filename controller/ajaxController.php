@@ -33,7 +33,8 @@ function likeAction($action, $imgId)
     $usrId = getId($_SESSION["usr_name"]);
 
     if ($queryLikesId) {
-        $likesId = unserialize($queryLikesId[0]["likes_id"]);
+        $datas = substr($queryLikesId[0]["likes_id"], 1, -1);
+        $likesId = unserialize($datas);
     }
     if (!$likesId) {
         $likesId = [];

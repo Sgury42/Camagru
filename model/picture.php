@@ -101,8 +101,8 @@ function likedImgs($usrName, $imgs)
 {
     $usrId = getId($usrName);
     foreach ($imgs as &$img) {
-        $likes = unserialize($img["likes_id"]);
-        // print_r(unserialize($img["likes_id"]));
+        $datas = substr($img["likes_id"], 1, -1);
+        $likes = unserialize($datas);
         if ($likes) {
           if (in_array($usrId, $likes)) {
                 $img["liked"] = "true";
@@ -111,7 +111,5 @@ function likedImgs($usrName, $imgs)
             }
         }
     }
-    // print_r($imgs);
-    // exit;
     return $imgs ;
 }

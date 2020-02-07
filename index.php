@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-ini_set('display_err/ors', 1);
+// ini_set('display_err/ors', 1);
 
 require_once "core/defines.php";
 require_once "core/pdo_connect.php";

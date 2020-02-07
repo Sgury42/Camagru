@@ -6,12 +6,12 @@
         <div class="imgInfos">
             <form>
                 <div class="infos">
-                    <button type="button" name="like" onclick="checkRights('like', this)" value=<?php if ($img["liked"]) {
+                    <button type="button" name="like" onclick="checkRights('like', this)" value=<?php if ($img["liked"] === "true") {
                         echo "unlike" ;
                     } else {
                         echo "like";
                     } ?> >
-                        <img class="icon" src=<?php if ($img["liked"]) {
+                        <img class="icon" src=<?php if ($img["liked"] === "true") {
                         echo LIKES_ICON_C;
                     } else {
                         echo LIKES_ICON_B;
